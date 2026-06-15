@@ -252,8 +252,8 @@ const chart = [
   ["ಸ", "sa", "⠎", "234", "consonant"], ["ಹ", "ha", "⠓", "125", "consonant"],
   ["ಕ್ಷ", "ksha", "⠟", "12345", "consonant"],
 
-  ["್", "halant", "⠈", "4", "mark"], ["ಂ", "anusvara", "⠂", "2", "mark"],
-  ["ಃ", "visarga", "⠃", "12", "mark"], ["೯", "number sign + 9", "⠼⠊", "3456, 24", "mark"]
+  ["್", "halant", "⠈", "4", "mark"], ["ಂ", "anusvara", "⠰", "56", "mark"],
+  ["ಃ", "visarga", "⠠", "6", "mark"], ["೯", "number sign + 9", "⠼⠊", "3456, 24", "mark"]
 ];
 
 const vowelSigns = {

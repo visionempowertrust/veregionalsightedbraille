@@ -3,7 +3,7 @@ const brailleMap = {
   k: "⠅", kh: "⠨", g: "⠛", gh: "⠣", ng: "⠬", ch: "⠉", chh: "⠡", j: "⠚", jh: "⠴", ny: "⠒",
   tt: "⠾", tth: "⠺", dd: "⠫", ddh: "⠿", nn: "⠼", t: "⠞", th: "⠹", d: "⠙", dh: "⠮", n: "⠝",
   p: "⠏", ph: "⠖", b: "⠃", bh: "⠘", m: "⠍", y: "⠽", r: "⠗", l: "⠇", ll: "⠸", v: "⠧",
-  sh: "⠩", ssh: "⠯", s: "⠎", h: "⠓", ksh: "⠟", virama: "⠈", anusvara: "⠂", visarga: "⠃"
+  sh: "⠩", ssh: "⠯", s: "⠎", h: "⠓", ksh: "⠟", tamilNn: "⠰", tamilRra: "⠻", tamilLlla: "⠷", virama: "⠈", anusvara: "⠰", visarga: "⠠"
 };
 
 const languageData = {
@@ -15,8 +15,8 @@ const languageData = {
       { title: "Consonants: க to ங", items: [["க", "k"], ["ங", "ng"]] },
       { title: "Consonants: ச to ஞ", items: [["ச", "ch"], ["ஜ", "j"], ["ஞ", "ny"]] },
       { title: "Consonants: ட to ண", items: [["ட", "tt"], ["ண", "nn"]] },
-      { title: "Consonants: த to ந", items: [["த", "t"], ["ந", "n"], ["ன", "n"]] },
-      { title: "Consonants: ப to ஹ", items: [["ப", "p"], ["ம", "m"], ["ய", "y"], ["ர", "r"], ["ல", "l"], ["ள", "ll"], ["ழ", "ll"], ["வ", "v"], ["ற", "r"], ["ஶ", "sh"], ["ஷ", "ssh"], ["ஸ", "s"], ["ஹ", "h"]] }
+      { title: "Consonants: த to ன", items: [["த", "t"], ["ந", "n"], ["ன", "tamilNn"]] },
+      { title: "Consonants: ப to ஹ", items: [["ப", "p"], ["ம", "m"], ["ய", "y"], ["ர", "r"], ["ல", "l"], ["ள", "ll"], ["ழ", "tamilLlla"], ["வ", "v"], ["ற", "tamilRra"], ["ஶ", "sh"], ["ஷ", "ssh"], ["ஸ", "s"], ["ஹ", "h"], ["க்ஷ", "ksh"]] }
     ]
   },
   hindi: {
@@ -264,7 +264,7 @@ function displayDotLabel(dots) {
 function buildChart(data) {
   const vowels = data.vowels.map(([print, key]) => [print, key, brailleMap[key], dotsFor(brailleMap[key]), "vowel"]);
   const consonants = data.rows.flatMap((row) => row.items.map(([print, key]) => [print, key, brailleMap[key], dotsFor(brailleMap[key]), "consonant"]));
-  const marks = [[data.virama, "halant", brailleMap.virama, "4", "mark"], [data.anusvara, "anusvara", brailleMap.anusvara, "2", "mark"], [data.visarga, "visarga", brailleMap.visarga, "12", "mark"]];
+  const marks = [[data.virama, "halant", brailleMap.virama, "4", "mark"], [data.anusvara, "anusvara", brailleMap.anusvara, "56", "mark"], [data.visarga, "visarga", brailleMap.visarga, "6", "mark"]];
   return [...vowels, ...consonants, ...marks];
 }
 
