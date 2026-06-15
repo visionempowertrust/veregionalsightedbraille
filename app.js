@@ -521,17 +521,6 @@ function renderSummary(lesson) {
       </ul>
     </section>
     <section>
-      <h3>Focus cells</h3>
-      <div class="focus-cell-list">
-        ${lesson.focus.map((item) => `
-          <span>
-            <strong>${item}</strong>
-            <em>${renderBrailleCells(translateKannada(item))}</em>
-          </span>
-        `).join("")}
-      </div>
-    </section>
-    <section>
       <h3>Practice sets</h3>
       <div class="practice-set-grid">
         ${lesson.practiceSets.map((set) => `
