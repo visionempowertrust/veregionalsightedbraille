@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kannada Braille by Sight</title>
+    <meta
+      name="description"
+      content="A sight-reading course prototype for learning Kannada Bharati Braille through lessons, charts, and practice."
+    >
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Kannada Braille by Sight home">
+        <span class="brand-mark" data-braille-render="⠅" aria-hidden="true"></span>
+        <span>Kannada Braille by Sight</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#workshops">Workshops</a>
+        <a href="#chart">Chart</a>
+        <a href="#sandbox">Sandbox</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-art" aria-hidden="true">
+          <div class="braille-ribbon" data-braille-render="⠅ ⠁ ⠝ ⠝ ⠁ ⠙ ⠁"></div>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">Bharati Braille starter course</p>
+          <h1 id="hero-title">Learn Kannada Braille by seeing</h1>
+          <p>
+            A workshop-style website for sighted learners who want to recognize Kannada
+            braille cells, understand the writing order, and build confidence one group at a time.
+          </p>
+        </div>
+      </section>
+
+      <section class="intro band" aria-labelledby="path-title">
+        <div>
+          <h2 id="path-title">Suggested path</h2>
+          <p>
+            Start with vowels and common consonants, then move to consonant rows, vowel signs,
+            halant clusters, numbers, punctuation, and short reading drills.
+          </p>
+        </div>
+        <div class="stats" aria-label="Course summary">
+          <span><strong>8</strong> workshops</span>
+          <span><strong>6-dot</strong> cells</span>
+          <span><strong>Grade 1</strong> Kannada</span>
+        </div>
+      </section>
+
+      <section id="series" class="section" aria-labelledby="series-title">
+        <div class="section-heading">
+          <p class="eyebrow">Workshop series</p>
+          <h2 id="series-title">Build recognition in small sets</h2>
+        </div>
+        <div class="workshop-grid" id="lessonGrid"></div>
+      </section>
+
+      <section id="workshops" class="section workshop-detail-section" aria-labelledby="workshops-title">
+        <div class="section-heading">
+          <p class="eyebrow">Full workshops</p>
+          <h2 id="workshops-title">Workshops</h2>
+          <p>
+            Each workshop is organized for sighted reading: first notice the cell shape,
+            then name the Kannada print, then read short sequences with increasing confidence.
+          </p>
+        </div>
+      <div class="workshop-detail-list" id="workshopDetails"></div>
+      </section>
+
+      <div class="modal-backdrop" id="summaryModal" hidden>
+        <section class="summary-modal" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+          <div class="summary-modal-header">
+            <div>
+              <p class="eyebrow">Workshop summary</p>
+              <h2 id="summaryTitle">Workshop summary</h2>
+            </div>
+            <button class="icon-button" type="button" id="closeSummary" aria-label="Close workshop summary">×</button>
+          </div>
+          <div class="summary-modal-body" id="summaryBody"></div>
+        </section>
+      </div>
+
+      <section id="chart" class="section split" aria-labelledby="chart-title">
+        <div class="section-heading sticky-copy">
+          <p class="eyebrow">Reference chart</p>
+          <h2 id="chart-title">Kannada letters and braille cells</h2>
+          <p>
+            Bharati Braille writes vowels as full braille letters after the consonant sound.
+            For example, a printed vowel sign is learned as a spoken-order braille cell.
+          </p>
+          <div class="segmented" role="tablist" aria-label="Chart groups">
+            <button class="active" type="button" data-chart-filter="all">All</button>
+            <button type="button" data-chart-filter="vowel">Vowels</button>
+            <button type="button" data-chart-filter="consonant">Consonants</button>
+            <button type="button" data-chart-filter="mark">Marks</button>
+          </div>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-grid" id="chartGrid"></div>
+        </div>
+      </section>
+
+      <section id="sandbox" class="section split reverse" aria-labelledby="sandbox-title">
+        <div class="sandbox-tool">
+          <label for="kannadaInput">Kannada print</label>
+          <textarea id="kannadaInput" rows="6">ಕನ್ನಡ ಬ್ರೈಲ್ ಕಲಿಕೆ</textarea>
+          <div class="sandbox-output" aria-label="Braille output">
+            <span id="brailleOutput"></span>
+          </div>
+        </div>
+        <div class="section-heading sticky-copy">
+          <p class="eyebrow">Sandbox</p>
+          <h2 id="sandbox-title">Explore print-to-braille order</h2>
+          <p>
+            Type Kannada text to see a learning-oriented braille rendering. Unknown characters are
+            kept as-is so teachers can spot gaps in the starter table.
+          </p>
+        </div>
+      </section>
+
+      <section class="section notes" aria-labelledby="notes-title">
+        <h2 id="notes-title">Teacher notes</h2>
+        <div class="note-grid">
+          <article>
+            <h3>What this prototype does</h3>
+            <p>
+              Presents a complete public-facing course shell, usable chart, random recognition
+              practice, and a simple Kannada braille exploration tool.
+            </p>
+          </article>
+          <article>
+            <h3>What to verify</h3>
+            <p>
+              The starter data follows publicly described Kannada/Bharati Braille conventions and
+              should be reviewed by a qualified Kannada Braille educator before production use.
+            </p>
+          </article>
+          <article>
+            <h3>Source basis</h3>
+            <p>
+              Structure inspired by Hadley's sight-reading workshop page. Braille conventions are
+              based on public Kannada and Bharati Braille references.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Kannada Braille by Sight prototype</span>
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
