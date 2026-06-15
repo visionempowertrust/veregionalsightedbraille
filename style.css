@@ -239,8 +239,7 @@ nav a:focus-visible {
 }
 
 .intro p,
-.section-heading p,
-.practice-copy p {
+.section-heading p {
   max-width: 680px;
   color: var(--muted);
 }
@@ -276,7 +275,6 @@ nav a:focus-visible {
 
 .workshop-card,
 .chart-card,
-.practice-tool,
 .sandbox-tool,
 .note-grid article {
   border: 1px solid var(--line);
@@ -464,6 +462,96 @@ nav a:focus-visible {
   font-size: 0.94rem;
 }
 
+.section-quiz {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.32fr) minmax(0, 0.68fr);
+  gap: 16px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #cfe0e6;
+  border-radius: 8px;
+  background: #eef6f8;
+}
+
+.section-quiz-copy h4 {
+  margin: 0 0 8px;
+}
+
+.section-quiz-copy p {
+  margin: 0;
+}
+
+.section-quiz-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.section-quiz-prompt {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  border: 1px solid #cfe0e6;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.section-quiz-braille {
+  color: var(--sky);
+  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
+  font-size: clamp(3.2rem, 9vw, 6.2rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.section-quiz-help {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.section-quiz-choices {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.section-quiz-choices button {
+  min-height: 54px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.18rem;
+  font-weight: 850;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.section-quiz-choices button.correct {
+  border-color: var(--green);
+  background: #e8f3ee;
+}
+
+.section-quiz-choices button.incorrect {
+  border-color: var(--rose);
+  background: #fbecf0;
+}
+
+.section-quiz-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-quiz-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
 .split {
   display: grid;
   grid-template-columns: minmax(260px, 0.38fr) minmax(0, 0.62fr);
@@ -521,8 +609,7 @@ nav a:focus-visible {
   padding: 14px;
 }
 
-.chart-braille,
-.quiz-braille {
+.chart-braille {
   font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
 }
 
@@ -546,79 +633,6 @@ nav a:focus-visible {
   margin: 2px 0;
   color: var(--muted);
   font-size: 0.92rem;
-}
-
-.practice-band {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.36fr) minmax(0, 0.64fr);
-  gap: clamp(22px, 5vw, 62px);
-  background: #eef6f8;
-  border-block: 1px solid #cfe0e6;
-}
-
-.practice-tool {
-  padding: clamp(18px, 3vw, 30px);
-}
-
-.prompt-card {
-  display: grid;
-  place-items: center;
-  min-height: 220px;
-  border-radius: 8px;
-  background: #ffffff;
-  border: 1px solid #cfe0e6;
-}
-
-.quiz-braille {
-  color: var(--sky);
-  font-size: clamp(6rem, 16vw, 10rem);
-  line-height: 1;
-}
-
-.quiz-dots {
-  color: var(--muted);
-  font-weight: 800;
-}
-
-.choices {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin: 16px 0;
-}
-
-.choices button {
-  min-height: 62px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--ink);
-  font-size: 1.5rem;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.choices button.correct {
-  border-color: var(--green);
-  background: #e8f3ee;
-}
-
-.choices button.incorrect {
-  border-color: var(--rose);
-  background: #fbecf0;
-}
-
-.practice-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.practice-footer p {
-  margin: 0;
-  color: var(--muted);
-  font-weight: 700;
 }
 
 .sandbox-tool {
@@ -701,7 +715,7 @@ textarea:focus {
   .hero,
   .split,
   .reverse,
-  .practice-band {
+  .section-quiz {
     grid-template-columns: 1fr;
   }
 
@@ -717,7 +731,8 @@ textarea:focus {
   .workshop-grid,
   .chart-grid,
   .practice-set-grid,
-  .lesson-two-column {
+  .lesson-two-column,
+  .section-quiz {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -738,7 +753,6 @@ textarea:focus {
   }
 
   .intro,
-  .practice-footer,
   .site-footer {
     align-items: stretch;
     flex-direction: column;
@@ -749,9 +763,15 @@ textarea:focus {
   .chart-grid,
   .practice-set-grid,
   .lesson-two-column,
-  .choices,
+  .section-quiz,
+  .section-quiz-choices,
   .note-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-quiz-footer {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .workshop-detail-header {

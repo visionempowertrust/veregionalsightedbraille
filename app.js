@@ -232,15 +232,10 @@ const lessonGrid = document.querySelector("#lessonGrid");
 const workshopDetails = document.querySelector("#workshopDetails");
 const chartGrid = document.querySelector("#chartGrid");
 const chartButtons = document.querySelectorAll("[data-chart-filter]");
-const quizBraille = document.querySelector("#quizBraille");
-const quizDots = document.querySelector("#quizDots");
-const choices = document.querySelector("#choices");
-const quizFeedback = document.querySelector("#quizFeedback");
-const nextQuestion = document.querySelector("#nextQuestion");
 const kannadaInput = document.querySelector("#kannadaInput");
 const brailleOutput = document.querySelector("#brailleOutput");
 
-let currentQuestion;
+const quizState = new Map();
 
 function renderLessons() {
   lessonGrid.innerHTML = lessons.map((lesson) => `
@@ -251,8 +246,8 @@ function renderLessons() {
         <p>${lesson.summary}</p>
       </div>
       <div class="workshop-meta">
-        <span>${lesson.level}</span>
-        <a href="#${lesson.slug}">${lesson.time}</a>
+        <a href="#${lesson.slug}">Practice</a>
+        <span>${lesson.practiceSets.length} sets</span>
       </div>
     </article>
   `).join("");
@@ -309,6 +304,24 @@ function renderWorkshopDetails() {
           </section>
         `).join("")}
       </div>
+
+      <section class="section-quiz" data-workshop-quiz="${lesson.slug}" aria-label="${lesson.title} quiz" aria-live="polite">
+        <div class="section-quiz-copy">
+          <h4>Practice this workshop</h4>
+          <p>Look at the braille, then choose the matching Kannada print from this workshop.</p>
+        </div>
+        <div class="section-quiz-panel">
+          <div class="section-quiz-prompt">
+            <span class="section-quiz-braille"></span>
+            <span class="section-quiz-help"></span>
+          </div>
+          <div class="section-quiz-choices"></div>
+          <div class="section-quiz-footer">
+            <p class="section-quiz-feedback">Choose an answer to begin.</p>
+            <button class="button primary" type="button" data-next-workshop="${lesson.slug}">Next</button>
+          </div>
+        </div>
+      </section>
     </article>
   `).join("");
 }
@@ -332,35 +345,64 @@ function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
-function makeQuestion() {
-  const pool = chart.filter((item) => item[4] !== "mark" && item[2].length === 1);
-  currentQuestion = pool[Math.floor(Math.random() * pool.length)];
+function getWorkshopPool(lesson) {
+  const items = [
+    ...lesson.focus,
+    ...lesson.practiceSets.flatMap((set) => set.items)
+  ];
+  const uniqueItems = [...new Set(items)]
+    .filter((item) => !item.includes("/") && item.trim().length > 0)
+    .map((item) => ({
+      print: item,
+      braille: translateKannada(item)
+    }))
+    .filter((item) => item.braille !== item.print);
+
+  return uniqueItems.length >= 4 ? uniqueItems : chart
+    .filter((item) => item[4] !== "mark")
+    .map(([print, , braille]) => ({ print, braille }));
+}
+
+function makeWorkshopQuestion(slug) {
+  const lesson = lessons.find((item) => item.slug === slug);
+  const quiz = workshopDetails.querySelector(`[data-workshop-quiz="${slug}"]`);
+  if (!lesson || !quiz) return;
+
+  const pool = getWorkshopPool(lesson);
+  const answer = pool[Math.floor(Math.random() * pool.length)];
   const options = shuffle([
-    currentQuestion,
-    ...shuffle(pool.filter((item) => item[0] !== currentQuestion[0])).slice(0, 3)
+    answer,
+    ...shuffle(pool.filter((item) => item.print !== answer.print)).slice(0, 3)
   ]);
 
-  quizBraille.textContent = currentQuestion[2];
-  quizDots.textContent = `dots ${currentQuestion[3]}`;
-  quizFeedback.textContent = "Choose the matching Kannada symbol.";
-  choices.innerHTML = options.map((item) => `
-    <button type="button" data-answer="${item[0]}" aria-label="${item[1]}">${item[0]}</button>
+  quizState.set(slug, answer);
+  quiz.querySelector(".section-quiz-braille").textContent = answer.braille;
+  quiz.querySelector(".section-quiz-help").textContent = "Select the matching print.";
+  quiz.querySelector(".section-quiz-feedback").textContent = "Choose an answer to begin.";
+  quiz.querySelector(".section-quiz-choices").innerHTML = options.map((item) => `
+    <button type="button" data-workshop-answer="${slug}" data-answer="${item.print}">${item.print}</button>
   `).join("");
 }
 
-function answerQuestion(event) {
-  const button = event.target.closest("button");
-  if (!button) return;
+function answerWorkshopQuestion(button) {
+  const slug = button.dataset.workshopAnswer;
+  const answer = quizState.get(slug);
+  const quiz = button.closest(".section-quiz");
+  if (!answer || !quiz) return;
 
-  const isCorrect = button.dataset.answer === currentQuestion[0];
-  [...choices.querySelectorAll("button")].forEach((choice) => {
+  const isCorrect = button.dataset.answer === answer.print;
+  [...quiz.querySelectorAll("[data-workshop-answer]")].forEach((choice) => {
     choice.disabled = true;
-    if (choice.dataset.answer === currentQuestion[0]) choice.classList.add("correct");
+    if (choice.dataset.answer === answer.print) choice.classList.add("correct");
   });
   if (!isCorrect) button.classList.add("incorrect");
-  quizFeedback.textContent = isCorrect
-    ? `Correct: ${currentQuestion[0]} is ${currentQuestion[1]}.`
-    : `Not quite. This cell is ${currentQuestion[0]} (${currentQuestion[1]}).`;
+  quiz.querySelector(".section-quiz-feedback").textContent = isCorrect
+    ? `Correct: ${answer.print}.`
+    : `Not quite. This is ${answer.print}.`;
+}
+
+function setupWorkshopQuizzes() {
+  lessons.forEach((lesson) => makeWorkshopQuestion(lesson.slug));
 }
 
 function translateKannada(input) {
@@ -412,12 +454,20 @@ chartButtons.forEach((button) => {
   });
 });
 
-choices.addEventListener("click", answerQuestion);
-nextQuestion.addEventListener("click", makeQuestion);
+workshopDetails.addEventListener("click", (event) => {
+  const answerButton = event.target.closest("[data-workshop-answer]");
+  if (answerButton) {
+    answerWorkshopQuestion(answerButton);
+    return;
+  }
+
+  const nextButton = event.target.closest("[data-next-workshop]");
+  if (nextButton) makeWorkshopQuestion(nextButton.dataset.nextWorkshop);
+});
 kannadaInput.addEventListener("input", updateSandbox);
 
 renderLessons();
 renderWorkshopDetails();
+setupWorkshopQuizzes();
 renderChart();
-makeQuestion();
 updateSandbox();
