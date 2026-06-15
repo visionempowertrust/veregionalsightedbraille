@@ -1,59 +1,183 @@
 const lessons = [
   {
+    slug: "vowels-reading-order",
     title: "Vowels and Reading Order",
     summary: "Learn independent Kannada vowels and how Bharati Braille writes vowels after consonants.",
     icon: "⠁",
     time: "25 min",
-    level: "Start here"
+    level: "Start here",
+    introduction: "Kannada print often shows a consonant with a vowel sign attached to it. In Bharati Braille, sight readers should learn to read the consonant cell and then the vowel cell in spoken order. This workshop starts with independent vowels and then uses simple syllables to show that order.",
+    objectives: [
+      "Recognize the common Kannada vowel cells by sight.",
+      "Explain why vowel signs are practiced as full vowel cells.",
+      "Read open syllables such as ಕಾ, ಕಿ, ಕೂ, ಗೆ, and ಮೈ in braille order."
+    ],
+    focus: ["ಅ", "ಆ", "ಇ", "ಈ", "ಉ", "ಊ", "ಎ", "ಏ", "ಐ", "ಒ", "ಓ", "ಔ", "ಕ", "ಗ", "ಮ"],
+    practiceSets: [
+      { title: "Vowel warm-up", instruction: "Read each braille cell aloud, then cover the print and name it again.", items: ["ಅ", "ಆ", "ಇ", "ಈ", "ಉ", "ಊ", "ಎ", "ಏ", "ಐ", "ಒ", "ಓ", "ಔ"] },
+      { title: "Short vowel pairs", instruction: "Compare the shape of each pair and say what changed.", items: ["ಅ / ಆ", "ಇ / ಈ", "ಉ / ಊ", "ಎ / ಏ", "ಒ / ಓ"] },
+      { title: "Consonant plus vowel order", instruction: "Read consonant first, vowel second. Do not read the printed vowel sign first.", items: ["ಕಾ", "ಕಿ", "ಕೀ", "ಕು", "ಕೂ", "ಕೆ", "ಕೇ", "ಕೈ", "ಕೊ", "ಕೋ", "ಕೌ"] },
+      { title: "Mixed syllables", instruction: "Move left to right and say the full syllable after reading both cells.", items: ["ಗಾ", "ಗಿ", "ಗೂ", "ಮೆ", "ಮೇ", "ಮೈ", "ರೋ", "ಲೌ"] },
+      { title: "Quick recognition", instruction: "Point to the Kannada print as soon as you recognize the braille pattern.", items: ["ಏ", "ಕೀ", "ಮೌ", "ಐ", "ಗೋ", "ಉ", "ಕೆ", "ಓ"] },
+      { title: "Mini reading line", instruction: "Read slowly first, then repeat with a steady rhythm.", items: ["ಕಾ ಕಿ ಕು ಕೆ ಕೋ", "ಮಾ ಮೀ ಮೂ ಮೇ ಮೈ", "ಗಾ ಗಿ ಗೆ ಗೋ ಗೌ"] }
+    ]
   },
   {
+    slug: "velar-row",
     title: "Consonants: ಕ to ಙ",
     summary: "Practice the velar row with dot patterns, Kannada print, and sound labels.",
     icon: "⠅",
     time: "20 min",
-    level: "Letters"
+    level: "Letters",
+    introduction: "The velar row is a good first consonant row because it begins with ಕ, a common Kannada letter. Practice the row as a family: ಕ, ಖ, ಗ, ಘ, ಙ. Sight reading improves when you compare nearby cells instead of memorizing each one in isolation.",
+    objectives: [
+      "Recognize the five velar consonants in print and braille.",
+      "Distinguish unaspirated and aspirated pairs: ಕ/ಖ and ಗ/ಘ.",
+      "Read short syllables built from velar consonants and vowels."
+    ],
+    focus: ["ಕ", "ಖ", "ಗ", "ಘ", "ಙ", "ಅ", "ಆ", "ಇ", "ಉ", "ಎ"],
+    practiceSets: [
+      { title: "Row chant", instruction: "Read the row forward, then backward.", items: ["ಕ", "ಖ", "ಗ", "ಘ", "ಙ", "ಙ", "ಘ", "ಗ", "ಖ", "ಕ"] },
+      { title: "Pair contrast", instruction: "Name each pair and notice the different braille shape.", items: ["ಕ / ಖ", "ಗ / ಘ", "ಕ / ಗ", "ಖ / ಘ", "ಗ / ಙ"] },
+      { title: "Open syllables", instruction: "Read consonant plus vowel in spoken order.", items: ["ಕಾ", "ಕಿ", "ಕು", "ಕೆ", "ಗಾ", "ಗಿ", "ಗು", "ಗೆ", "ಘಾ", "ಘು"] },
+      { title: "Find the odd one", instruction: "In each group, identify the cell that is from a different consonant.", items: ["ಕ ಕ ಕ ಖ", "ಗ ಗ ಘ ಗ", "ಖ ಕ ಖ ಖ", "ಘ ಘ ಙ ಘ", "ಗ ಙ ಗ ಗ"] },
+      { title: "Speed line", instruction: "Read once for accuracy, then once for fluency.", items: ["ಕ ಖ ಗ ಘ ಙ", "ಕಾ ಖಾ ಗಾ ಘಾ", "ಕಿ ಖಿ ಗಿ ಘಿ", "ಕು ಖು ಗು ಘು"] }
+    ]
   },
   {
+    slug: "palatal-row",
     title: "Consonants: ಚ to ಞ",
     summary: "Recognize the palatal row and compare similar-looking braille cells.",
     icon: "⠉",
     time: "20 min",
-    level: "Letters"
+    level: "Letters",
+    introduction: "This workshop introduces ಚ, ಛ, ಜ, ಝ, and ಞ. These sounds appear in everyday words, names, and school vocabulary. Practice them as a row, then mix them with vowels so the cells become familiar in real reading.",
+    objectives: [
+      "Read the palatal row by sight.",
+      "Separate ಚ/ಛ and ಜ/ಝ when they appear quickly.",
+      "Read short syllable strings without pausing between every cell."
+    ],
+    focus: ["ಚ", "ಛ", "ಜ", "ಝ", "ಞ", "ಆ", "ಇ", "ಈ", "ಏ", "ಒ"],
+    practiceSets: [
+      { title: "Row recognition", instruction: "Read each print letter, then read its braille cell.", items: ["ಚ", "ಛ", "ಜ", "ಝ", "ಞ"] },
+      { title: "Aspirated pairs", instruction: "Say the soft sound first, then the breathy sound.", items: ["ಚ / ಛ", "ಜ / ಝ", "ಚಾ / ಛಾ", "ಜಿ / ಝಿ"] },
+      { title: "Vowel practice", instruction: "Read the consonant cell, then the vowel cell.", items: ["ಚಾ", "ಚಿ", "ಚೀ", "ಛೆ", "ಛೋ", "ಜಾ", "ಜಿ", "ಜೇ", "ಝು", "ಝೋ"] },
+      { title: "Mixed row drill", instruction: "Keep your eyes moving left to right.", items: ["ಚ ಜ ಛ ಝ ಞ", "ಜ ಚ ಝ ಛ ಚ", "ಞ ಜ ಚ ಛ ಝ", "ಚಾ ಜಿ ಛು ಝೇ"] },
+      { title: "Review with velars", instruction: "Mix this row with the previous row.", items: ["ಕ ಚ ಗ ಜ", "ಖ ಛ ಘ ಝ", "ಕಿ ಚಿ ಗಿ ಜಿ", "ಕೆ ಚೆ ಗೆ ಜೆ"] }
+    ]
   },
   {
+    slug: "retroflex-row",
     title: "Consonants: ಟ to ಣ",
     summary: "Build confidence with retroflex sounds and their Bharati Braille cells.",
     icon: "⠾",
     time: "25 min",
-    level: "Letters"
+    level: "Letters",
+    introduction: "Retroflex consonants are important in Kannada and can be challenging for new readers because several cells look visually dense. Treat this workshop as slow, careful pattern practice before adding speed.",
+    objectives: [
+      "Recognize ಟ, ಠ, ಡ, ಢ, and ಣ.",
+      "Compare visually dense cells without guessing.",
+      "Read retroflex syllables with long and short vowels."
+    ],
+    focus: ["ಟ", "ಠ", "ಡ", "ಢ", "ಣ", "ಅ", "ಆ", "ಈ", "ಉ", "ಓ"],
+    practiceSets: [
+      { title: "Careful row read", instruction: "Read each item and trace the dot group with your eyes.", items: ["ಟ", "ಠ", "ಡ", "ಢ", "ಣ"] },
+      { title: "Dense-cell contrast", instruction: "Pause briefly between each pair and name both letters.", items: ["ಟ / ಠ", "ಡ / ಢ", "ಟ / ಢ", "ಠ / ಣ", "ಡ / ಣ"] },
+      { title: "Syllable builder", instruction: "Read consonant plus vowel as one syllable.", items: ["ಟಾ", "ಟಿ", "ಟು", "ಠಾ", "ಠೋ", "ಡಾ", "ಡೀ", "ಢು", "ಣಾ", "ಣೀ"] },
+      { title: "Accuracy line", instruction: "Read without speed pressure. Accuracy first.", items: ["ಟ ಠ ಡ ಢ ಣ", "ಟಾ ಠಾ ಡಾ ಢಾ ಣಾ", "ಟಿ ಠಿ ಡಿ ಢಿ ಣಿ"] },
+      { title: "Mixed review", instruction: "Combine velar, palatal, and retroflex rows.", items: ["ಕ ಚ ಟ", "ಗ ಜ ಡ", "ಖ ಛ ಠ", "ಘ ಝ ಢ", "ಙ ಞ ಣ"] }
+    ]
   },
   {
+    slug: "dental-row",
     title: "Consonants: ತ to ನ",
     summary: "Read the dental row and distinguish ತ, ಥ, ದ, ಧ, and ನ.",
     icon: "⠞",
     time: "25 min",
-    level: "Letters"
+    level: "Letters",
+    introduction: "The dental row appears constantly in Kannada. This workshop gives extra practice with ತ, ಥ, ದ, ಧ, and ನ so learners can read common syllables without stopping.",
+    objectives: [
+      "Read the dental consonant row by sight.",
+      "Distinguish ತ/ಥ and ದ/ಧ quickly.",
+      "Read common syllables and short review lines."
+    ],
+    focus: ["ತ", "ಥ", "ದ", "ಧ", "ನ", "ಅ", "ಆ", "ಇ", "ಉ", "ಎ", "ಓ"],
+    practiceSets: [
+      { title: "Row read", instruction: "Read forward, backward, then mixed.", items: ["ತ", "ಥ", "ದ", "ಧ", "ನ", "ನ", "ಧ", "ದ", "ಥ", "ತ"] },
+      { title: "Pair practice", instruction: "Say the pair twice: once slowly, once naturally.", items: ["ತ / ಥ", "ದ / ಧ", "ತ / ದ", "ಥ / ಧ", "ದ / ನ"] },
+      { title: "Vowel combinations", instruction: "Use spoken order: consonant, then vowel.", items: ["ತಾ", "ತಿ", "ತು", "ತೆ", "ತೋ", "ದಾ", "ದಿ", "ದು", "ದೆ", "ದೋ"] },
+      { title: "Nasal practice", instruction: "Find ನ quickly in each line.", items: ["ನ ತ ನ ದ", "ತಾ ನಾ ದಾ ನಾ", "ನಿ ತಿ ನು ತು", "ದೆ ನೇ ನೋ ನು"] },
+      { title: "Mixed consonant rows", instruction: "Read all learned rows in short bursts.", items: ["ಕ ತ ಚ ದ", "ಗ ದ ಜ ನ", "ಟ ತ ಡ ದ", "ಕಿ ತಿ ಚಿ ದಿ", "ಕು ತು ಗು ದು"] }
+    ]
   },
   {
+    slug: "remaining-consonants",
     title: "Consonants: ಪ to ಹ",
     summary: "Finish common consonants, semivowels, liquids, sibilants, and ಹ.",
     icon: "⠏",
     time: "35 min",
-    level: "Letters"
+    level: "Letters",
+    introduction: "This workshop completes the most common consonants: ಪ, ಫ, ಬ, ಭ, ಮ, ಯ, ರ, ಲ, ಳ, ವ, ಶ, ಷ, ಸ, and ಹ. Because the set is larger, practice it in smaller families.",
+    objectives: [
+      "Recognize the remaining common consonants.",
+      "Read family groups such as ಪ/ಫ/ಬ/ಭ/ಮ and ಯ/ರ/ಲ/ವ.",
+      "Use the full consonant inventory in mixed drills."
+    ],
+    focus: ["ಪ", "ಫ", "ಬ", "ಭ", "ಮ", "ಯ", "ರ", "ಲ", "ಳ", "ವ", "ಶ", "ಷ", "ಸ", "ಹ"],
+    practiceSets: [
+      { title: "Labial family", instruction: "Read this family until each cell feels familiar.", items: ["ಪ", "ಫ", "ಬ", "ಭ", "ಮ", "ಪಾ", "ಫಿ", "ಬು", "ಭೇ", "ಮೋ"] },
+      { title: "Flow letters", instruction: "Practice letters that commonly connect sounds in words.", items: ["ಯ", "ರ", "ಲ", "ಳ", "ವ", "ಯಾ", "ರಿ", "ಲು", "ವೇ", "ವೋ"] },
+      { title: "Sibilants and ಹ", instruction: "Compare ಶ, ಷ, ಸ, and ಹ carefully.", items: ["ಶ", "ಷ", "ಸ", "ಹ", "ಶಾ", "ಷಿ", "ಸು", "ಹೇ", "ಸೋ"] },
+      { title: "Large-set recognition", instruction: "Point to the letter as soon as you know it.", items: ["ಮ", "ರ", "ಪ", "ಸ", "ವ", "ಭ", "ಳ", "ಹ", "ಬ", "ಯ", "ಶ", "ಲ"] },
+      { title: "Mixed syllable lines", instruction: "Read each line twice, then cover the print.", items: ["ಪಾ ಬಿ ಮು ಮೇ", "ಯಾ ರಿ ಲು ವೇ", "ಶಿ ಸು ಹಾ ಸೋ", "ಮಾ ವಿ ಭು ಫೇ"] },
+      { title: "Full consonant review", instruction: "Mix newer cells with earlier consonant rows.", items: ["ಕ ಪ ತ ಮ", "ಚ ಜ ರ ಲ", "ಟ ಡ ಸ ಹ", "ಗ ಬ ದ ವ", "ನ ಮ ಯ ರ"] }
+    ]
   },
   {
+    slug: "marks",
     title: "Halant, Anusvara, Visarga",
     summary: "See how vowel cancellation and syllable codas are represented in braille.",
     icon: "⠈",
     time: "20 min",
-    level: "Marks"
+    level: "Marks",
+    introduction: "Kannada print uses marks that change how a syllable is read. This workshop introduces halant, anusvara, and visarga as sight-reading signals. The goal is not grammar analysis; it is quick recognition while reading.",
+    objectives: [
+      "Identify halant, anusvara, and visarga cells.",
+      "Read consonant clusters slowly and accurately.",
+      "Notice when a printed mark changes the spoken syllable."
+    ],
+    focus: ["್", "ಂ", "ಃ", "ಕ", "ರ", "ಮ", "ಸ", "ಹ"],
+    practiceSets: [
+      { title: "Mark recognition", instruction: "Name each mark and say what it does.", items: ["್", "ಂ", "ಃ"] },
+      { title: "Halant before consonant", instruction: "Read the halant signal and then the consonant.", items: ["ಕ್", "ತ್", "ರ್", "ಲ್", "ಮ್", "ಸ್"] },
+      { title: "Cluster practice", instruction: "Read slowly. Keep the consonant order clear.", items: ["ಕ್ರ", "ಪ್ರ", "ತ್ರ", "ಬ್ರ", "ಗ್ರ", "ಸ್ಕ"] },
+      { title: "Anusvara practice", instruction: "Notice the nasal sound at the end of the syllable.", items: ["ಕಂ", "ಗಂ", "ತಂ", "ನಂ", "ಮಂ", "ಸಂ"] },
+      { title: "Visarga practice", instruction: "Read the vowel or consonant, then the visarga mark.", items: ["ಅಃ", "ಕಃ", "ದಃ", "ಮಃ", "ಹಃ"] },
+      { title: "Mixed marks", instruction: "Tell which mark appears in each item.", items: ["ಕಂ", "ಕ್", "ಅಃ", "ಪ್ರ", "ಸಂ", "ಮ್", "ಹಃ", "ತ್ರ"] }
+    ]
   },
   {
+    slug: "words-sentences",
     title: "Words and Sentences",
     summary: "Read short Kannada words, numbers, punctuation, and mixed review drills.",
     icon: "⠎",
     time: "40 min",
-    level: "Practice"
+    level: "Practice",
+    introduction: "The final workshop moves from cells to reading. Learners practice short words, familiar syllable patterns, numbers, punctuation, and sentence-like lines. Keep the pace comfortable and repeat each set for fluency.",
+    objectives: [
+      "Read short Kannada words using learned cells.",
+      "Recognize Kannada and Arabic numerals with the number sign.",
+      "Read punctuation and short sentence lines with a steady rhythm."
+    ],
+    focus: ["ಕನ್ನಡ", "ಕಲಿಕೆ", "ಮನೆ", "ನದಿ", "೧", "೨", "೩", ".", "?"],
+    practiceSets: [
+      { title: "Short words", instruction: "Read one word at a time. Then read the full line.", items: ["ಮನೆ", "ನದಿ", "ಕವಿ", "ಮಲೆ", "ಹರಿ", "ಸರಳ", "ಕಲಿಕೆ"] },
+      { title: "Kannada learning words", instruction: "Practice words likely to appear in this course.", items: ["ಕನ್ನಡ", "ಬ್ರೈಲ್", "ಓದು", "ಅಕ್ಷರ", "ಪಾಠ", "ಅಭ್ಯಾಸ"] },
+      { title: "Number practice", instruction: "Read the number sign before each digit.", items: ["೧", "೨", "೩", "೪", "೫", "10", "25", "೩೫"] },
+      { title: "Punctuation", instruction: "Read the punctuation name after the word.", items: ["ಮನೆ.", "ನದಿ?", "ಹೌದು!", "ಕವಿ,", "ಪಾಠ:"] },
+      { title: "Sentence lines", instruction: "Read slowly first, then repeat naturally.", items: ["ಕವಿ ಓದು.", "ಮನೆ ಸರಳ.", "ಕನ್ನಡ ಕಲಿಕೆ.", "ಬ್ರೈಲ್ ಓದು."] },
+      { title: "Final mixed review", instruction: "Read across rows, not down columns.", items: ["ಅ ಕ ಗ ಚ ಜ", "ಟ ಡ ತ ದ ನ", "ಪ ಬ ಮ ರ ಲ", "ಶ ಸ ಹ ಕಂ ಕ್ರ", "೧ ೨ ೩ ೪ ೫"] }
+    ]
   }
 ];
 
@@ -105,6 +229,7 @@ const digits = {
 const punctuation = { ",": "⠂", ";": "⠆", ":": "⠒", ".": "⠲", "?": "⠦", "!": "⠖", "-": "⠤" };
 
 const lessonGrid = document.querySelector("#lessonGrid");
+const workshopDetails = document.querySelector("#workshopDetails");
 const chartGrid = document.querySelector("#chartGrid");
 const chartButtons = document.querySelectorAll("[data-chart-filter]");
 const quizBraille = document.querySelector("#quizBraille");
@@ -119,7 +244,7 @@ let currentQuestion;
 
 function renderLessons() {
   lessonGrid.innerHTML = lessons.map((lesson) => `
-    <article class="workshop-card">
+    <article class="workshop-card" id="card-${lesson.slug}">
       <span class="workshop-icon" aria-hidden="true">${lesson.icon}</span>
       <div>
         <h3>${lesson.title}</h3>
@@ -127,7 +252,62 @@ function renderLessons() {
       </div>
       <div class="workshop-meta">
         <span>${lesson.level}</span>
-        <span>${lesson.time}</span>
+        <a href="#${lesson.slug}">${lesson.time}</a>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderWorkshopDetails() {
+  workshopDetails.innerHTML = lessons.map((lesson, index) => `
+    <article class="workshop-detail" id="${lesson.slug}">
+      <div class="workshop-detail-header">
+        <div>
+          <p class="eyebrow">Workshop ${index + 1}</p>
+          <h3>${lesson.title}</h3>
+          <p>${lesson.introduction}</p>
+        </div>
+        <div class="workshop-badge" aria-hidden="true">
+          <span>${lesson.icon}</span>
+          <strong>${lesson.time}</strong>
+        </div>
+      </div>
+
+      <div class="lesson-two-column">
+        <section aria-label="${lesson.title} objectives">
+          <h4>Learning goals</h4>
+          <ul class="objective-list">
+            ${lesson.objectives.map((objective) => `<li>${objective}</li>`).join("")}
+          </ul>
+        </section>
+        <section aria-label="${lesson.title} focus cells">
+          <h4>Focus cells</h4>
+          <div class="focus-cell-list">
+            ${lesson.focus.map((item) => `
+              <span>
+                <strong>${item}</strong>
+                <em>${translateKannada(item)}</em>
+              </span>
+            `).join("")}
+          </div>
+        </section>
+      </div>
+
+      <div class="practice-set-grid">
+        ${lesson.practiceSets.map((set) => `
+          <section class="practice-set" aria-label="${set.title}">
+            <h4>${set.title}</h4>
+            <p>${set.instruction}</p>
+            <div class="drill-list">
+              ${set.items.map((item) => `
+                <span class="drill-chip">
+                  <strong>${item}</strong>
+                  <em>${translateKannada(item)}</em>
+                </span>
+              `).join("")}
+            </div>
+          </section>
+        `).join("")}
       </div>
     </article>
   `).join("");
@@ -237,6 +417,7 @@ nextQuestion.addEventListener("click", makeQuestion);
 kannadaInput.addEventListener("input", updateSandbox);
 
 renderLessons();
+renderWorkshopDetails();
 renderChart();
 makeQuestion();
 updateSandbox();
