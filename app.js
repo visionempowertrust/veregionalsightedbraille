@@ -242,6 +242,53 @@ const brailleOutput = document.querySelector("#brailleOutput");
 const quizState = new Map();
 const cellState = new Map();
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function isBrailleChar(char) {
+  const code = char.codePointAt(0);
+  return code >= 0x2800 && code <= 0x283f;
+}
+
+function brailleDotNumbers(char) {
+  const mask = char.codePointAt(0) - 0x2800;
+  return [1, 2, 3, 4, 5, 6].filter((dot) => mask & (1 << (dot - 1)));
+}
+
+function renderBrailleCell(char) {
+  const activeDots = brailleDotNumbers(char);
+  const label = activeDots.length ? `dots ${activeDots.join("-")}` : "blank braille cell";
+  return `
+    <span class="visual-braille-cell" role="img" aria-label="${label}">
+      ${[1, 2, 3, 4, 5, 6].map((dot) => `
+        <span class="visual-braille-dot${activeDots.includes(dot) ? " active" : ""}" data-dot="${dot}"></span>
+      `).join("")}
+    </span>
+  `;
+}
+
+function renderBrailleCells(value) {
+  return [...String(value)].map((char) => {
+    if (isBrailleChar(char)) return renderBrailleCell(char);
+    if (char === " ") return `<span class="visual-braille-space" aria-hidden="true"></span>`;
+    if (char === "\n") return "<br>";
+    return `<span class="visual-braille-text">${escapeHtml(char)}</span>`;
+  }).join("");
+}
+
+function renderStaticBraille() {
+  document.querySelectorAll("[data-braille-render]").forEach((element) => {
+    element.innerHTML = renderBrailleCells(element.dataset.brailleRender);
+  });
+}
+
 function renderLessons() {
   lessonGrid.innerHTML = lessons.map((lesson) => `
     <article class="workshop-card" id="card-${lesson.slug}">
@@ -328,7 +375,7 @@ function renderChart(filter = "all") {
     .filter((item) => filter === "all" || item[4] === filter)
     .map(([print, label, braille, dots, group]) => `
       <article class="chart-card" data-group="${group}">
-        <span class="chart-braille" aria-hidden="true">${braille}</span>
+        <span class="chart-braille" aria-label="Braille ${dots}">${renderBrailleCells(braille)}</span>
         <div>
           <h3>${print}</h3>
           <p>${label}</p>
@@ -351,7 +398,7 @@ function renderCellStep(slug) {
   const item = lesson.focus[index];
   stepper.querySelector(".cell-step-count").textContent = `${index + 1} of ${lesson.focus.length}`;
   stepper.querySelector(".cell-step-print").textContent = item;
-  stepper.querySelector(".cell-step-braille").textContent = translateKannada(item);
+  stepper.querySelector(".cell-step-braille").innerHTML = renderBrailleCells(translateKannada(item));
   stepper.querySelector(".cell-step-note").textContent = "Read the Kannada print, then name the braille cell.";
   stepper.querySelector("[data-prev-cell]").disabled = index === 0;
   stepper.querySelector("[data-next-cell]").disabled = index === lesson.focus.length - 1;
@@ -415,7 +462,7 @@ function renderWorkshopQuestion(slug) {
   const answer = state.pool[state.index];
   const options = buildOptions(state.pool, answer, state.index);
 
-  quiz.querySelector(".section-quiz-braille").textContent = answer.braille;
+  quiz.querySelector(".section-quiz-braille").innerHTML = renderBrailleCells(answer.braille);
   quiz.querySelector(".section-quiz-help").textContent = `Question ${state.index + 1} of ${state.pool.length}`;
   quiz.querySelector(".section-quiz-feedback").textContent = "Choose an answer to begin.";
   quiz.querySelector(".section-quiz-choices").innerHTML = options.map((item) => `
@@ -479,7 +526,7 @@ function renderSummary(lesson) {
         ${lesson.focus.map((item) => `
           <span>
             <strong>${item}</strong>
-            <em>${translateKannada(item)}</em>
+            <em>${renderBrailleCells(translateKannada(item))}</em>
           </span>
         `).join("")}
       </div>
@@ -495,7 +542,7 @@ function renderSummary(lesson) {
               ${set.items.map((item) => `
                 <span class="drill-chip">
                   <strong>${item}</strong>
-                  <em>${translateKannada(item)}</em>
+                  <em>${renderBrailleCells(translateKannada(item))}</em>
                 </span>
               `).join("")}
             </div>
@@ -557,7 +604,7 @@ function translateKannada(input) {
 }
 
 function updateSandbox() {
-  brailleOutput.textContent = translateKannada(kannadaInput.value);
+  brailleOutput.innerHTML = renderBrailleCells(translateKannada(kannadaInput.value));
 }
 
 chartButtons.forEach((button) => {
@@ -613,6 +660,7 @@ kannadaInput.addEventListener("input", updateSandbox);
 
 renderLessons();
 renderWorkshopDetails();
+renderStaticBraille();
 setupCellSteppers();
 setupWorkshopQuizzes();
 renderChart();

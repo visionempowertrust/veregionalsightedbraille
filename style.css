@@ -69,7 +69,47 @@ textarea {
   border-radius: 8px;
   background: var(--green);
   color: #fff;
-  font-size: 1.5rem;
+  --braille-dot-size: 5px;
+  --braille-cell-gap: 3px;
+}
+
+.visual-braille-cell {
+  display: inline-grid;
+  grid-template-columns: repeat(2, var(--braille-dot-size, 10px));
+  grid-template-rows: repeat(3, var(--braille-dot-size, 10px));
+  gap: var(--braille-cell-gap, 5px);
+  align-items: center;
+  justify-content: center;
+  width: calc((var(--braille-dot-size, 10px) * 2) + var(--braille-cell-gap, 5px) + (var(--braille-cell-pad, 8px) * 2));
+  min-width: calc((var(--braille-dot-size, 10px) * 2) + var(--braille-cell-gap, 5px) + (var(--braille-cell-pad, 8px) * 2));
+  padding: var(--braille-cell-pad, 8px);
+  border: 1px solid var(--braille-cell-border, #d9e6e1);
+  border-radius: 8px;
+  background: var(--braille-cell-bg, #fff);
+  vertical-align: middle;
+}
+
+.visual-braille-dot {
+  width: var(--braille-dot-size, 10px);
+  height: var(--braille-dot-size, 10px);
+  border-radius: 50%;
+  background: var(--braille-dot-off, #d9dfdc);
+}
+
+.visual-braille-dot.active {
+  background: var(--braille-dot-on, #1f2933);
+}
+
+.visual-braille-space {
+  display: inline-block;
+  width: var(--braille-space-width, 14px);
+}
+
+.visual-braille-text {
+  display: inline-block;
+  margin-inline: 2px;
+  color: currentColor;
+  font-family: "Nirmala UI", "Segoe UI", Arial, sans-serif;
 }
 
 nav {
@@ -196,14 +236,21 @@ nav a:focus-visible {
   position: absolute;
   top: 9%;
   left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   width: min(520px, 90%);
   padding: 24px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.1);
   box-shadow: var(--shadow);
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: clamp(2.6rem, 8vw, 6.5rem);
-  line-height: 1.1;
+  --braille-dot-size: clamp(8px, 1.8vw, 16px);
+  --braille-cell-gap: clamp(5px, 0.8vw, 9px);
+  --braille-cell-pad: clamp(8px, 1.2vw, 14px);
+  --braille-cell-bg: rgba(255, 255, 255, 0.9);
+  --braille-dot-off: #b9c4bf;
+  --braille-dot-on: #101820;
+  --braille-space-width: 2px;
 }
 
 .cell-cloud {
@@ -223,8 +270,12 @@ nav a:focus-visible {
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.13);
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  --braille-dot-size: clamp(7px, 1.5vw, 14px);
+  --braille-cell-gap: clamp(4px, 0.7vw, 8px);
+  --braille-cell-pad: clamp(7px, 1vw, 12px);
+  --braille-cell-bg: rgba(255, 255, 255, 0.92);
+  --braille-dot-off: #b9c4bf;
+  --braille-dot-on: #101820;
 }
 
 .band,
@@ -465,12 +516,19 @@ nav a:focus-visible {
 }
 
 .cell-step-braille {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
   color: var(--green-deep);
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: clamp(4rem, 12vw, 7rem);
-  line-height: 1;
   text-align: center;
   overflow-wrap: anywhere;
+  --braille-dot-size: clamp(11px, 2.4vw, 18px);
+  --braille-cell-gap: clamp(6px, 1vw, 10px);
+  --braille-cell-pad: clamp(9px, 1.4vw, 14px);
+  --braille-cell-bg: #fff;
+  --braille-dot-off: #cfd9d5;
+  --braille-dot-on: #111827;
 }
 
 .cell-step-note {
@@ -522,10 +580,13 @@ nav a:focus-visible {
 .focus-cell-list em,
 .drill-chip em {
   color: var(--green-deep);
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: 1.55rem;
   font-style: normal;
   line-height: 1;
+  --braille-dot-size: 5px;
+  --braille-cell-gap: 3px;
+  --braille-cell-pad: 5px;
+  --braille-dot-off: #cfd9d5;
+  --braille-dot-on: #111827;
 }
 
 .practice-set-grid {
@@ -639,12 +700,19 @@ nav a:focus-visible {
 }
 
 .section-quiz-braille {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   color: var(--sky);
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: clamp(3.2rem, 9vw, 6.2rem);
-  line-height: 1.05;
   overflow-wrap: anywhere;
   text-align: center;
+  --braille-dot-size: clamp(10px, 2vw, 17px);
+  --braille-cell-gap: clamp(6px, 1vw, 10px);
+  --braille-cell-pad: clamp(9px, 1.4vw, 14px);
+  --braille-cell-bg: #fff;
+  --braille-dot-off: #cfd9d5;
+  --braille-dot-on: #111827;
 }
 
 .section-quiz-help {
@@ -759,12 +827,17 @@ nav a:focus-visible {
 .chart-braille {
   display: grid;
   place-items: center;
-  width: 66px;
-  aspect-ratio: 1;
+  width: 74px;
+  min-height: 74px;
   border-radius: 8px;
   background: #e8f3ee;
   color: var(--green-deep);
-  font-size: 2.7rem;
+  --braille-dot-size: 7px;
+  --braille-cell-gap: 4px;
+  --braille-cell-pad: 7px;
+  --braille-cell-bg: #fff;
+  --braille-dot-off: #cfd9d5;
+  --braille-dot-on: #111827;
 }
 
 .chart-card h3 {
@@ -805,16 +878,25 @@ textarea:focus {
 }
 
 .sandbox-output {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   min-height: 130px;
   margin-top: 14px;
   padding: 18px;
   border-radius: 8px;
   background: #1f2933;
   color: #fff;
-  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
-  font-size: clamp(2rem, 5vw, 3.8rem);
   line-height: 1.35;
   overflow-wrap: anywhere;
+  --braille-dot-size: clamp(7px, 1.8vw, 13px);
+  --braille-cell-gap: clamp(4px, 0.8vw, 7px);
+  --braille-cell-pad: clamp(7px, 1vw, 10px);
+  --braille-cell-bg: #fff;
+  --braille-dot-off: #cfd9d5;
+  --braille-dot-on: #111827;
+  --braille-space-width: 18px;
 }
 
 .notes {
