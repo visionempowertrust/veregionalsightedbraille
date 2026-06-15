@@ -577,6 +577,5 @@ if (courseKey) {
   makeLanguageToggle();
   renderAll();
 } else {
-  makeLanguageToggle();
   renderStaticBraille();
 }
