@@ -176,6 +176,17 @@ nav a:focus-visible {
   color: #fff;
 }
 
+.button.secondary.dark-text {
+  border-color: var(--line);
+  color: var(--green-deep);
+  background: #fff;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
 .hero-art {
   position: relative;
   min-height: 440px;
@@ -416,6 +427,73 @@ nav a:focus-visible {
   color: var(--muted);
 }
 
+.cell-stepper {
+  display: grid;
+  gap: 12px;
+}
+
+.cell-stepper-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cell-step-count {
+  color: var(--green-deep);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.cell-step-card {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.34fr) minmax(0, 0.66fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 170px;
+  padding: 18px;
+  border: 1px solid #d9e6e1;
+  border-radius: 8px;
+  background: #f4faf7;
+}
+
+.cell-step-print {
+  font-size: clamp(2.4rem, 7vw, 4.6rem);
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+.cell-step-braille {
+  color: var(--green-deep);
+  font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
+  font-size: clamp(4rem, 12vw, 7rem);
+  line-height: 1;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.cell-step-note {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.94rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.step-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.summary-button {
+  margin-top: 18px;
+  border-color: #cfe0e6;
+  background: #eef6f8;
+  color: var(--green-deep);
+}
+
 .focus-cell-list,
 .drill-list {
   display: flex;
@@ -460,6 +538,71 @@ nav a:focus-visible {
 .practice-set p {
   margin: 0 0 12px;
   font-size: 0.94rem;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 3vw, 34px);
+  background: rgba(31, 41, 51, 0.58);
+}
+
+.summary-modal {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(1060px, 100%);
+  max-height: min(88vh, 900px);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.summary-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px clamp(18px, 3vw, 28px);
+  border-bottom: 1px solid var(--line);
+}
+
+.summary-modal-header h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  line-height: 1.08;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.summary-modal-body {
+  display: grid;
+  gap: 20px;
+  padding: clamp(18px, 3vw, 28px);
+  overflow: auto;
+}
+
+.summary-modal-body h3 {
+  margin: 0 0 12px;
 }
 
 .section-quiz {
@@ -782,6 +925,14 @@ textarea:focus {
     justify-items: start;
     grid-template-columns: auto auto;
     width: 100%;
+  }
+
+  .cell-step-card {
+    grid-template-columns: 1fr;
+  }
+
+  .step-controls {
+    flex-direction: column;
   }
 
   .cell-cloud {

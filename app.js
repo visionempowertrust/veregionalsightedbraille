@@ -230,12 +230,17 @@ const punctuation = { ",": "⠂", ";": "⠆", ":": "⠒", ".": "⠲", "?": "⠦"
 
 const lessonGrid = document.querySelector("#lessonGrid");
 const workshopDetails = document.querySelector("#workshopDetails");
+const summaryModal = document.querySelector("#summaryModal");
+const summaryTitle = document.querySelector("#summaryTitle");
+const summaryBody = document.querySelector("#summaryBody");
+const closeSummary = document.querySelector("#closeSummary");
 const chartGrid = document.querySelector("#chartGrid");
 const chartButtons = document.querySelectorAll("[data-chart-filter]");
 const kannadaInput = document.querySelector("#kannadaInput");
 const brailleOutput = document.querySelector("#brailleOutput");
 
 const quizState = new Map();
+const cellState = new Map();
 
 function renderLessons() {
   lessonGrid.innerHTML = lessons.map((lesson) => `
@@ -275,40 +280,29 @@ function renderWorkshopDetails() {
             ${lesson.objectives.map((objective) => `<li>${objective}</li>`).join("")}
           </ul>
         </section>
-        <section aria-label="${lesson.title} focus cells">
-          <h4>Focus cells</h4>
-          <div class="focus-cell-list">
-            ${lesson.focus.map((item) => `
-              <span>
-                <strong>${item}</strong>
-                <em>${translateKannada(item)}</em>
-              </span>
-            `).join("")}
+        <section class="cell-stepper" data-cell-stepper="${lesson.slug}" aria-label="${lesson.title} cell lesson" aria-live="polite">
+          <div class="cell-stepper-heading">
+            <h4>Learn one cell at a time</h4>
+            <span class="cell-step-count"></span>
+          </div>
+          <div class="cell-step-card">
+            <span class="cell-step-print"></span>
+            <span class="cell-step-braille"></span>
+            <span class="cell-step-note"></span>
+          </div>
+          <div class="step-controls">
+            <button class="button secondary dark-text" type="button" data-prev-cell="${lesson.slug}">Previous</button>
+            <button class="button primary" type="button" data-next-cell="${lesson.slug}">Next</button>
           </div>
         </section>
       </div>
 
-      <div class="practice-set-grid">
-        ${lesson.practiceSets.map((set) => `
-          <section class="practice-set" aria-label="${set.title}">
-            <h4>${set.title}</h4>
-            <p>${set.instruction}</p>
-            <div class="drill-list">
-              ${set.items.map((item) => `
-                <span class="drill-chip">
-                  <strong>${item}</strong>
-                  <em>${translateKannada(item)}</em>
-                </span>
-              `).join("")}
-            </div>
-          </section>
-        `).join("")}
-      </div>
+      <button class="button summary-button" type="button" data-summary="${lesson.slug}">Workshop summary</button>
 
       <section class="section-quiz" data-workshop-quiz="${lesson.slug}" aria-label="${lesson.title} quiz" aria-live="polite">
         <div class="section-quiz-copy">
           <h4>Practice this workshop</h4>
-          <p>Look at the braille, then choose the matching Kannada print from this workshop.</p>
+          <p>Use Previous and Next to move through this workshop's practice pool.</p>
         </div>
         <div class="section-quiz-panel">
           <div class="section-quiz-prompt">
@@ -318,7 +312,10 @@ function renderWorkshopDetails() {
           <div class="section-quiz-choices"></div>
           <div class="section-quiz-footer">
             <p class="section-quiz-feedback">Choose an answer to begin.</p>
-            <button class="button primary" type="button" data-next-workshop="${lesson.slug}">Next</button>
+            <div class="step-controls">
+              <button class="button secondary dark-text" type="button" data-prev-workshop="${lesson.slug}">Previous</button>
+              <button class="button primary" type="button" data-next-workshop="${lesson.slug}">Next</button>
+            </div>
           </div>
         </div>
       </section>
@@ -345,6 +342,38 @@ function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
+function renderCellStep(slug) {
+  const lesson = lessons.find((item) => item.slug === slug);
+  const stepper = workshopDetails.querySelector(`[data-cell-stepper="${slug}"]`);
+  const index = cellState.get(slug) || 0;
+  if (!lesson || !stepper) return;
+
+  const item = lesson.focus[index];
+  stepper.querySelector(".cell-step-count").textContent = `${index + 1} of ${lesson.focus.length}`;
+  stepper.querySelector(".cell-step-print").textContent = item;
+  stepper.querySelector(".cell-step-braille").textContent = translateKannada(item);
+  stepper.querySelector(".cell-step-note").textContent = "Read the Kannada print, then name the braille cell.";
+  stepper.querySelector("[data-prev-cell]").disabled = index === 0;
+  stepper.querySelector("[data-next-cell]").disabled = index === lesson.focus.length - 1;
+}
+
+function moveCellStep(slug, direction) {
+  const lesson = lessons.find((item) => item.slug === slug);
+  if (!lesson) return;
+
+  const currentIndex = cellState.get(slug) || 0;
+  const nextIndex = Math.min(Math.max(currentIndex + direction, 0), lesson.focus.length - 1);
+  cellState.set(slug, nextIndex);
+  renderCellStep(slug);
+}
+
+function setupCellSteppers() {
+  lessons.forEach((lesson) => {
+    cellState.set(lesson.slug, 0);
+    renderCellStep(lesson.slug);
+  });
+}
+
 function getWorkshopPool(lesson) {
   const items = [
     ...lesson.focus,
@@ -363,33 +392,63 @@ function getWorkshopPool(lesson) {
     .map(([print, , braille]) => ({ print, braille }));
 }
 
-function makeWorkshopQuestion(slug) {
+function buildOptions(pool, answer, index) {
+  const distractors = pool.filter((item) => item.print !== answer.print);
+  const rotated = [...distractors.slice(index), ...distractors.slice(0, index)];
+  return shuffle([answer, ...rotated.slice(0, 3)]);
+}
+
+function renderWorkshopQuestion(slug) {
   const lesson = lessons.find((item) => item.slug === slug);
   const quiz = workshopDetails.querySelector(`[data-workshop-quiz="${slug}"]`);
   if (!lesson || !quiz) return;
 
-  const pool = getWorkshopPool(lesson);
-  const answer = pool[Math.floor(Math.random() * pool.length)];
-  const options = shuffle([
-    answer,
-    ...shuffle(pool.filter((item) => item.print !== answer.print)).slice(0, 3)
-  ]);
+  let state = quizState.get(slug);
+  if (!state) {
+    state = {
+      pool: getWorkshopPool(lesson),
+      index: 0
+    };
+    quizState.set(slug, state);
+  }
 
-  quizState.set(slug, answer);
+  const answer = state.pool[state.index];
+  const options = buildOptions(state.pool, answer, state.index);
+
   quiz.querySelector(".section-quiz-braille").textContent = answer.braille;
-  quiz.querySelector(".section-quiz-help").textContent = "Select the matching print.";
+  quiz.querySelector(".section-quiz-help").textContent = `Question ${state.index + 1} of ${state.pool.length}`;
   quiz.querySelector(".section-quiz-feedback").textContent = "Choose an answer to begin.";
   quiz.querySelector(".section-quiz-choices").innerHTML = options.map((item) => `
     <button type="button" data-workshop-answer="${slug}" data-answer="${item.print}">${item.print}</button>
   `).join("");
+  quiz.querySelector("[data-prev-workshop]").disabled = state.index === 0;
+  quiz.querySelector("[data-next-workshop]").disabled = state.index === state.pool.length - 1;
+}
+
+function moveWorkshopQuestion(slug, direction) {
+  const lesson = lessons.find((item) => item.slug === slug);
+  if (!lesson) return;
+
+  let state = quizState.get(slug);
+  if (!state) {
+    state = {
+      pool: getWorkshopPool(lesson),
+      index: 0
+    };
+  }
+
+  state.index = Math.min(Math.max(state.index + direction, 0), state.pool.length - 1);
+  quizState.set(slug, state);
+  renderWorkshopQuestion(slug);
 }
 
 function answerWorkshopQuestion(button) {
   const slug = button.dataset.workshopAnswer;
-  const answer = quizState.get(slug);
+  const state = quizState.get(slug);
   const quiz = button.closest(".section-quiz");
-  if (!answer || !quiz) return;
+  if (!state || !quiz) return;
 
+  const answer = state.pool[state.index];
   const isCorrect = button.dataset.answer === answer.print;
   [...quiz.querySelectorAll("[data-workshop-answer]")].forEach((choice) => {
     choice.disabled = true;
@@ -402,7 +461,62 @@ function answerWorkshopQuestion(button) {
 }
 
 function setupWorkshopQuizzes() {
-  lessons.forEach((lesson) => makeWorkshopQuestion(lesson.slug));
+  lessons.forEach((lesson) => renderWorkshopQuestion(lesson.slug));
+}
+
+function renderSummary(lesson) {
+  summaryTitle.textContent = lesson.title;
+  summaryBody.innerHTML = `
+    <section>
+      <h3>Learning goals</h3>
+      <ul class="objective-list">
+        ${lesson.objectives.map((objective) => `<li>${objective}</li>`).join("")}
+      </ul>
+    </section>
+    <section>
+      <h3>Focus cells</h3>
+      <div class="focus-cell-list">
+        ${lesson.focus.map((item) => `
+          <span>
+            <strong>${item}</strong>
+            <em>${translateKannada(item)}</em>
+          </span>
+        `).join("")}
+      </div>
+    </section>
+    <section>
+      <h3>Practice sets</h3>
+      <div class="practice-set-grid">
+        ${lesson.practiceSets.map((set) => `
+          <section class="practice-set" aria-label="${set.title}">
+            <h4>${set.title}</h4>
+            <p>${set.instruction}</p>
+            <div class="drill-list">
+              ${set.items.map((item) => `
+                <span class="drill-chip">
+                  <strong>${item}</strong>
+                  <em>${translateKannada(item)}</em>
+                </span>
+              `).join("")}
+            </div>
+          </section>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function openSummary(slug) {
+  const lesson = lessons.find((item) => item.slug === slug);
+  if (!lesson) return;
+
+  renderSummary(lesson);
+  summaryModal.hidden = false;
+  closeSummary.focus();
+}
+
+function closeSummaryModal() {
+  summaryModal.hidden = true;
 }
 
 function translateKannada(input) {
@@ -455,19 +569,51 @@ chartButtons.forEach((button) => {
 });
 
 workshopDetails.addEventListener("click", (event) => {
+  const summaryButton = event.target.closest("[data-summary]");
+  if (summaryButton) {
+    openSummary(summaryButton.dataset.summary);
+    return;
+  }
+
+  const prevCellButton = event.target.closest("[data-prev-cell]");
+  if (prevCellButton) {
+    moveCellStep(prevCellButton.dataset.prevCell, -1);
+    return;
+  }
+
+  const nextCellButton = event.target.closest("[data-next-cell]");
+  if (nextCellButton) {
+    moveCellStep(nextCellButton.dataset.nextCell, 1);
+    return;
+  }
+
   const answerButton = event.target.closest("[data-workshop-answer]");
   if (answerButton) {
     answerWorkshopQuestion(answerButton);
     return;
   }
 
+  const prevButton = event.target.closest("[data-prev-workshop]");
+  if (prevButton) {
+    moveWorkshopQuestion(prevButton.dataset.prevWorkshop, -1);
+    return;
+  }
+
   const nextButton = event.target.closest("[data-next-workshop]");
-  if (nextButton) makeWorkshopQuestion(nextButton.dataset.nextWorkshop);
+  if (nextButton) moveWorkshopQuestion(nextButton.dataset.nextWorkshop, 1);
+});
+closeSummary.addEventListener("click", closeSummaryModal);
+summaryModal.addEventListener("click", (event) => {
+  if (event.target === summaryModal) closeSummaryModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !summaryModal.hidden) closeSummaryModal();
 });
 kannadaInput.addEventListener("input", updateSandbox);
 
 renderLessons();
 renderWorkshopDetails();
+setupCellSteppers();
 setupWorkshopQuizzes();
 renderChart();
 updateSandbox();
