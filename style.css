@@ -441,13 +441,13 @@ nav a:focus-visible {
   margin-bottom: 28px;
 }
 
-.workshop-grid {
+.lesson-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
-.workshop-card,
+.lesson-card,
 .chart-card,
 .sandbox-tool,
 .note-grid article {
@@ -457,13 +457,13 @@ nav a:focus-visible {
   box-shadow: 0 10px 26px rgba(31, 41, 51, 0.06);
 }
 
-.workshop-card {
+.lesson-card {
   display: grid;
   min-height: 250px;
   padding: 18px;
 }
 
-.workshop-icon {
+.lesson-icon {
   align-self: start;
   color: var(--green);
   font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
@@ -471,27 +471,27 @@ nav a:focus-visible {
   line-height: 1;
 }
 
-.workshop-card h3 {
+.lesson-card h3 {
   margin: 18px 0 8px;
   font-size: 1.18rem;
 }
 
-.workshop-card p {
+.lesson-card p {
   margin: 0;
   color: var(--muted);
 }
 
-.workshop-card a {
+.lesson-card a {
   color: var(--green-deep);
   text-decoration: none;
 }
 
-.workshop-card a:hover,
-.workshop-card a:focus-visible {
+.lesson-card a:hover,
+.lesson-card a:focus-visible {
   text-decoration: underline;
 }
 
-.workshop-meta {
+.lesson-meta {
   align-self: end;
   display: flex;
   justify-content: space-between;
@@ -502,24 +502,24 @@ nav a:focus-visible {
   font-weight: 800;
 }
 
-.workshop-detail-section {
+.lesson-detail-section {
   background: #fff;
   border-block: 1px solid var(--line);
 }
 
-.workshop-detail-list {
+.lesson-detail-list {
   display: grid;
   gap: 22px;
 }
 
-.workshop-detail {
+.lesson-detail {
   padding: clamp(18px, 3vw, 30px);
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fbfaf7;
 }
 
-.workshop-detail-header {
+.lesson-detail-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
@@ -528,25 +528,25 @@ nav a:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 
-.workshop-detail h3 {
+.lesson-detail h3 {
   margin: 0;
   font-size: clamp(1.7rem, 3vw, 2.6rem);
   line-height: 1.08;
   letter-spacing: 0;
 }
 
-.workshop-detail h4 {
+.lesson-detail h4 {
   margin: 0 0 10px;
   font-size: 1rem;
 }
 
-.workshop-detail p {
+.lesson-detail p {
   max-width: 860px;
   margin: 10px 0 0;
   color: var(--muted);
 }
 
-.workshop-badge {
+.lesson-badge {
   display: grid;
   justify-items: center;
   gap: 6px;
@@ -557,13 +557,13 @@ nav a:focus-visible {
   color: var(--green-deep);
 }
 
-.workshop-badge span {
+.lesson-badge span {
   font-family: "Segoe UI Symbol", "Nirmala UI", sans-serif;
   font-size: 3.2rem;
   line-height: 1;
 }
 
-.workshop-badge strong {
+.lesson-badge strong {
   font-size: 0.88rem;
 }
 
@@ -1066,7 +1066,7 @@ textarea:focus {
     min-height: 300px;
   }
 
-  .workshop-grid,
+  .lesson-grid,
   .chart-grid,
   .language-grid,
   .practice-set-grid,
@@ -1098,7 +1098,7 @@ textarea:focus {
   }
 
   .stats,
-  .workshop-grid,
+  .lesson-grid,
   .chart-grid,
   .language-grid,
   .practice-set-grid,
@@ -1114,11 +1114,11 @@ textarea:focus {
     flex-direction: column;
   }
 
-  .workshop-detail-header {
+  .lesson-detail-header {
     grid-template-columns: 1fr;
   }
 
-  .workshop-badge {
+  .lesson-badge {
     justify-items: start;
     grid-template-columns: auto auto;
     width: 100%;

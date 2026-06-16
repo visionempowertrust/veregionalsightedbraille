@@ -6,7 +6,7 @@ const sourceLessons = [
     icon: "⠁",
     time: "25 min",
     level: "Start here",
-    introduction: "Kannada print often shows a consonant with a vowel sign attached to it. In Bharati Braille, sight readers should learn to read the consonant cell and then the vowel cell in spoken order. This workshop starts with independent vowels and then uses simple syllables to show that order.",
+    introduction: "Kannada print often shows a consonant with a vowel sign attached to it. In Bharati Braille, sight readers should learn to read the consonant cell and then the vowel cell in spoken order. This lesson starts with independent vowels and then uses simple syllables to show that order.",
     objectives: [
       "Recognize the common Kannada vowel cells by sight.",
       "Explain why vowel signs are practiced as full vowel cells.",
@@ -51,7 +51,7 @@ const sourceLessons = [
     icon: "⠉",
     time: "20 min",
     level: "Letters",
-    introduction: "This workshop introduces ಚ, ಛ, ಜ, ಝ, and ಞ. These sounds appear in everyday words, names, and school vocabulary. Practice them as a row, then mix them with vowels so the cells become familiar in real reading.",
+    introduction: "This lesson introduces ಚ, ಛ, ಜ, ಝ, and ಞ. These sounds appear in everyday words, names, and school vocabulary. Practice them as a row, then mix them with vowels so the cells become familiar in real reading.",
     objectives: [
       "Read the palatal row by sight.",
       "Separate ಚ/ಛ and ಜ/ಝ when they appear quickly.",
@@ -73,7 +73,7 @@ const sourceLessons = [
     icon: "⠾",
     time: "25 min",
     level: "Letters",
-    introduction: "Retroflex consonants are important in Kannada and can be challenging for new readers because several cells look visually dense. Treat this workshop as slow, careful pattern practice before adding speed.",
+    introduction: "Retroflex consonants are important in Kannada and can be challenging for new readers because several cells look visually dense. Treat this lesson as slow, careful pattern practice before adding speed.",
     objectives: [
       "Recognize ಟ, ಠ, ಡ, ಢ, and ಣ.",
       "Compare visually dense cells without guessing.",
@@ -95,7 +95,7 @@ const sourceLessons = [
     icon: "⠞",
     time: "25 min",
     level: "Letters",
-    introduction: "The dental row appears constantly in Kannada. This workshop gives extra practice with ತ, ಥ, ದ, ಧ, and ನ so learners can read common syllables without stopping.",
+    introduction: "The dental row appears constantly in Kannada. This lesson gives extra practice with ತ, ಥ, ದ, ಧ, and ನ so learners can read common syllables without stopping.",
     objectives: [
       "Read the dental consonant row by sight.",
       "Distinguish ತ/ಥ and ದ/ಧ quickly.",
@@ -117,7 +117,7 @@ const sourceLessons = [
     icon: "⠏",
     time: "35 min",
     level: "Letters",
-    introduction: "This workshop completes the most common consonants: ಪ, ಫ, ಬ, ಭ, ಮ, ಯ, ರ, ಲ, ಳ, ವ, ಶ, ಷ, ಸ, and ಹ. Because the set is larger, practice it in smaller families.",
+    introduction: "This lesson completes the most common consonants: ಪ, ಫ, ಬ, ಭ, ಮ, ಯ, ರ, ಲ, ಳ, ವ, ಶ, ಷ, ಸ, and ಹ. Because the set is larger, practice it in smaller families.",
     objectives: [
       "Recognize the remaining common consonants.",
       "Read family groups such as ಪ/ಫ/ಬ/ಭ/ಮ and ಯ/ರ/ಲ/ವ.",
@@ -140,7 +140,7 @@ const sourceLessons = [
     icon: "⠈",
     time: "20 min",
     level: "Marks",
-    introduction: "Kannada print uses marks that change how a syllable is read. This workshop introduces halant, anusvara, and visarga as sight-reading signals. The goal is not grammar analysis; it is quick recognition while reading.",
+    introduction: "Kannada print uses marks that change how a syllable is read. This lesson introduces halant, anusvara, and visarga as sight-reading signals. The goal is not grammar analysis; it is quick recognition while reading.",
     objectives: [
       "Identify halant, anusvara, and visarga cells.",
       "Read consonant clusters slowly and accurately.",
@@ -163,7 +163,7 @@ const sourceLessons = [
     icon: "⠎",
     time: "40 min",
     level: "Practice",
-    introduction: "The final workshop moves from cells to reading. Learners practice short words, familiar syllable patterns, numbers, punctuation, and sentence-like lines. Keep the pace comfortable and repeat each set for fluency.",
+    introduction: "The final lesson moves from cells to reading. Learners practice short words, familiar syllable patterns, numbers, punctuation, and sentence-like lines. Keep the pace comfortable and repeat each set for fluency.",
     objectives: [
       "Read short Kannada words using learned cells.",
       "Recognize Kannada and Arabic numerals with the number sign.",
@@ -272,7 +272,7 @@ const digits = {
 const punctuation = { ",": "⠂", ";": "⠆", ":": "⠒", ".": "⠲", "?": "⠦", "!": "⠖", "-": "⠤" };
 
 const lessonGrid = document.querySelector("#lessonGrid");
-const workshopDetails = document.querySelector("#workshopDetails");
+const lessonDetails = document.querySelector("#lessonDetails");
 const summaryModal = document.querySelector("#summaryModal");
 const summaryTitle = document.querySelector("#summaryTitle");
 const summaryBody = document.querySelector("#summaryBody");
@@ -286,7 +286,7 @@ const quizState = new Map();
 const cellState = new Map();
 let textMode = localStorage.getItem("text-mode-kannada") || "en";
 const kannadaUi = {
-  local: "ಕನ್ನಡ", workshops: "ಕಾರ್ಯಾಗಾರಗಳು", chart: "ಪಟ್ಟಿ", sandbox: "ಅಭ್ಯಾಸ ಪೆಟ್ಟಿಗೆ",
+  local: "ಕನ್ನಡ", lessons: "ಕಾರ್ಯಾಗಾರಗಳು", chart: "ಪಟ್ಟಿ", sandbox: "ಅಭ್ಯಾಸ ಪೆಟ್ಟಿಗೆ",
   goals: "ಕಲಿಕೆಯ ಗುರಿಗಳು", oneAtATime: "ಒಂದೊಂದೇ ಸೆಲ್ ಕಲಿಯಿರಿ", summary: "ಕಾರ್ಯಾಗಾರ ಸಾರಾಂಶ",
   practice: "ಈ ಕಾರ್ಯಾಗಾರವನ್ನು ಅಭ್ಯಾಸ ಮಾಡಿ", choose: "ಉತ್ತರವನ್ನು ಆಯ್ಕೆಮಾಡಿ.", prev: "ಹಿಂದಿನದು", next: "ಮುಂದಿನದು",
   question: "ಪ್ರಶ್ನೆ", correct: "ಸರಿ", notQuite: "ಇನ್ನೂ ಸರಿಯಾಗಿಲ್ಲ", practiceSets: "ಅಭ್ಯಾಸ ಸಮೂಹಗಳು",
@@ -319,17 +319,17 @@ function displayLessonSummary(lesson) {
   if (!regionalMode()) return lesson.summary;
   if (lesson.group === "vowels") return ui("pathCopy", lesson.summary);
   if (lesson.group === "marks") return ui("chartCopy", lesson.summary);
-  return ui("practice", "Practice this workshop");
+  return ui("practice", "Practice this lesson");
 }
 
 function displayLessonIntroduction(lesson) {
   if (!regionalMode()) return lesson.introduction;
-  return `${displayLessonTitle(lesson)}. ${ui("oneAtATime", "Learn one cell at a time")}. ${ui("practice", "Practice this workshop")}.`;
+  return `${displayLessonTitle(lesson)}. ${ui("oneAtATime", "Learn one cell at a time")}. ${ui("practice", "Practice this lesson")}.`;
 }
 
 function displayObjectives(lesson) {
   if (!regionalMode()) return lesson.objectives;
-  return [ui("oneAtATime", "Learn one cell at a time"), ui("practice", "Practice this workshop"), ui("chartCopy", "Bharati Braille writes vowels as full braille letters after the consonant sound.")];
+  return [ui("oneAtATime", "Learn one cell at a time"), ui("practice", "Practice this lesson"), ui("chartCopy", "Bharati Braille writes vowels as full braille letters after the consonant sound.")];
 }
 
 function displayPracticeTitle(set, index) {
@@ -337,7 +337,7 @@ function displayPracticeTitle(set, index) {
 }
 
 function displayPracticeInstruction(set) {
-  return regionalMode() ? ui("practice", "Practice this workshop") : set.instruction;
+  return regionalMode() ? ui("practice", "Practice this lesson") : set.instruction;
 }
 
 function displayMeta(lesson) {
@@ -390,7 +390,7 @@ function updateLanguageToggle() {
 
 function setupPageText() {
   document.querySelectorAll("nav a").forEach((link) => {
-    if (link.getAttribute("href") === "#workshops") link.textContent = ui("workshops", "Workshops");
+    if (link.getAttribute("href") === "#lessons") link.textContent = ui("lessons", "Lessons");
     if (link.getAttribute("href") === "#chart") link.textContent = ui("chart", "Chart");
     if (link.getAttribute("href") === "#sandbox") link.textContent = ui("sandbox", "Sandbox");
   });
@@ -398,7 +398,7 @@ function setupPageText() {
   if (brandText) brandText.textContent = regionalMode() ? "ಕನ್ನಡ" : "Kannada Braille by Sight";
   document.querySelector(".hero .eyebrow").textContent = regionalMode() ? "ಭಾರತೀ ಬ್ರೈಲ್ ಆರಂಭಿಕ ಪಾಠ" : "Bharati Braille starter course";
   document.querySelector("#hero-title").textContent = ui("hero", "Learn Kannada Braille by seeing");
-  document.querySelector(".hero-copy p:last-child").textContent = ui("heroCopy", "A workshop-style website for sighted learners who want to recognize Kannada braille cells, understand the writing order, and build confidence one group at a time.");
+  document.querySelector(".hero-copy p:last-child").textContent = ui("heroCopy", "A lesson-style website for sighted learners who want to recognize Kannada braille cells, understand the writing order, and build confidence one group at a time.");
   document.querySelector("#path-title").textContent = ui("path", "Suggested path");
   document.querySelector(".intro p").textContent = ui("pathCopy", "Start with vowels and common consonants, then move to consonant rows, vowel signs, halant clusters, numbers, punctuation, and short reading drills.");
   document.querySelector("#chart-title").textContent = ui("chartTitle", "Kannada letters and braille cells");
@@ -409,21 +409,21 @@ function setupPageText() {
   document.querySelector("[data-chart-filter='vowel']").textContent = ui("vowels", "Vowels");
   document.querySelector("[data-chart-filter='consonant']").textContent = ui("consonants", "Consonants");
   document.querySelector("[data-chart-filter='mark']").textContent = ui("marks", "Marks");
-  document.querySelector("#series .eyebrow").textContent = regionalMode() ? "ಕಾರ್ಯಾಗಾರ ಸರಣಿ" : "Workshop series";
-  document.querySelector("#series h2").textContent = regionalMode() ? "ಸಣ್ಣ ಗುಂಪುಗಳಲ್ಲಿ ಗುರುತಿಸುವಿಕೆಯನ್ನು ಬೆಳೆಸಿರಿ" : "Build recognition in small sets";
-  document.querySelector("#workshops .eyebrow").textContent = regionalMode() ? "ಪೂರ್ಣ ಕಾರ್ಯಾಗಾರಗಳು" : "Full workshops";
-  document.querySelector("#workshops-title").textContent = ui("workshops", "Workshops");
-  document.querySelector("#workshops .section-heading p:not(.eyebrow)").textContent = regionalMode() ? "ಪ್ರತಿ ಕಾರ್ಯಾಗಾರದಲ್ಲಿ ಒಂದು ಸೆಲ್ ಕಲಿದು, ನಂತರ ಅದೇ ವಿಭಾಗವನ್ನು ಅಭ್ಯಾಸ ಮಾಡಿ." : "Each workshop is organized for sighted reading: first notice the cell shape, then name the Kannada print, then read short sequences with increasing confidence.";
+  document.querySelector("#series .eyebrow").textContent = regionalMode() ? "ಕಾರ್ಯಾಗಾರ ಸರಣಿ" : "Lesson series";
+  document.querySelector("#series h2").textContent = regionalMode() ? "ಸಣ್ಣ ಗುಂಪುಗಳಲ್ಲಿ ಗುರುತಿಸುವಿಕೆಯನ್ನು ಬೆಳೆಸಿರಿ" : "Build recognition in small lessons";
+  document.querySelector("#lessons .eyebrow").textContent = regionalMode() ? "ಪೂರ್ಣ ಕಾರ್ಯಾಗಾರಗಳು" : "Full lessons";
+  document.querySelector("#lessons-title").textContent = ui("lessons", "Lessons");
+  document.querySelector("#lessons .section-heading p:not(.eyebrow)").textContent = regionalMode() ? "ಪ್ರತಿ ಕಾರ್ಯಾಗಾರದಲ್ಲಿ ಒಂದು ಸೆಲ್ ಕಲಿದು, ನಂತರ ಅದೇ ವಿಭಾಗವನ್ನು ಅಭ್ಯಾಸ ಮಾಡಿ." : "Each lesson is organized for sighted reading: first notice the cell shape, then name the Kannada print, then read short sequences with increasing confidence.";
   document.querySelector("#chart .eyebrow").textContent = regionalMode() ? "ಪಟ್ಟಿ" : "Reference chart";
   document.querySelector("#sandbox .eyebrow").textContent = regionalMode() ? "ಅಭ್ಯಾಸ ಪೆಟ್ಟಿಗೆ" : "Sandbox";
   document.querySelector("#sandbox .section-heading h2").textContent = ui("sandbox", "Explore print-to-braille order");
   const statItems = document.querySelectorAll(".stats span");
   if (regionalMode() && statItems.length >= 3) {
-    statItems[0].innerHTML = `<strong>${lessons.length}</strong> ${ui("workshops", "Workshops")}`;
+    statItems[0].innerHTML = `<strong>${lessons.length}</strong> ${ui("lessons", "Lessons")}`;
     statItems[1].innerHTML = `<strong>6</strong>`;
     statItems[2].innerHTML = `<strong>1</strong>`;
   } else if (statItems.length >= 3) {
-    statItems[0].innerHTML = `<strong>${lessons.length}</strong> workshops`;
+    statItems[0].innerHTML = `<strong>${lessons.length}</strong> lessons`;
     statItems[1].innerHTML = `<strong>6-dot</strong> cells`;
     statItems[2].innerHTML = `<strong>Grade 1</strong> Kannada`;
   }
@@ -435,7 +435,7 @@ function setupPageText() {
     noteArticles[1].querySelector("h3").textContent = regionalMode() ? "ಪರಿಶೀಲನೆ ಬೇಕು" : "What to verify";
     noteArticles[1].querySelector("p").textContent = regionalMode() ? "ಉತ್ಪಾದನಾ ಬಳಕೆಗೆ ಮೊದಲು ಅರ್ಹ ಬ್ರೈಲ್ ಶಿಕ್ಷಕರಿಂದ ಪರಿಶೀಲಿಸಬೇಕು." : "The starter data follows publicly described Kannada/Bharati Braille conventions and should be reviewed by a qualified Kannada Braille educator before production use.";
     noteArticles[2].querySelector("h3").textContent = regionalMode() ? "ಆಧಾರ" : "Source basis";
-    noteArticles[2].querySelector("p").textContent = regionalMode() ? "ದೃಷ್ಟಿ-ಓದು ಕಾರ್ಯಾಗಾರ ರಚನೆ ಮತ್ತು ಸಾರ್ವಜನಿಕ ಬ್ರೈಲ್ ಉಲ್ಲೇಖಗಳ ಆಧಾರ." : "Structure inspired by Hadley's sight-reading workshop page. Braille conventions are based on public Kannada and Bharati Braille references.";
+    noteArticles[2].querySelector("p").textContent = regionalMode() ? "ದೃಷ್ಟಿ-ಓದು ಕಾರ್ಯಾಗಾರ ರಚನೆ ಮತ್ತು ಸಾರ್ವಜನಿಕ ಬ್ರೈಲ್ ಉಲ್ಲೇಖಗಳ ಆಧಾರ." : "Structure inspired by Hadley's sight-reading lesson page. Braille conventions are based on public Kannada and Bharati Braille references.";
   }
   document.querySelector(".site-footer span").textContent = regionalMode() ? "ಕನ್ನಡ" : "Kannada Braille by Sight prototype";
   document.querySelector(".site-footer a").textContent = ui("back", "Back to top");
@@ -491,13 +491,13 @@ function renderStaticBraille() {
 
 function renderLessons() {
   lessonGrid.innerHTML = lessons.map((lesson) => `
-    <article class="workshop-card" id="card-${lesson.slug}">
-      <span class="workshop-icon" aria-hidden="true">${lesson.icon}</span>
+    <article class="lesson-card" id="card-${lesson.slug}">
+      <span class="lesson-icon" aria-hidden="true">${lesson.icon}</span>
       <div>
         <h3>${displayLessonTitle(lesson)}</h3>
         <p>${displayLessonSummary(lesson)}</p>
       </div>
-      <div class="workshop-meta">
+      <div class="lesson-meta">
         <a href="#${lesson.slug}">${ui("practice", "Practice")}</a>
         <span>${displayMeta(lesson)}</span>
       </div>
@@ -505,16 +505,16 @@ function renderLessons() {
   `).join("");
 }
 
-function renderWorkshopDetails() {
-  workshopDetails.innerHTML = lessons.map((lesson, index) => `
-    <article class="workshop-detail" id="${lesson.slug}">
-      <div class="workshop-detail-header">
+function renderLessonDetails() {
+  lessonDetails.innerHTML = lessons.map((lesson, index) => `
+    <article class="lesson-detail" id="${lesson.slug}">
+      <div class="lesson-detail-header">
         <div>
-          <p class="eyebrow">${ui("workshops", "Workshop")} ${index + 1}</p>
+          <p class="eyebrow">${ui("lessons", "Lesson")} ${index + 1}</p>
           <h3>${displayLessonTitle(lesson)}</h3>
           <p>${displayLessonIntroduction(lesson)}</p>
         </div>
-        <div class="workshop-badge" aria-hidden="true">
+        <div class="lesson-badge" aria-hidden="true">
           <span>${lesson.icon}</span>
           <strong>${displayTime(lesson)}</strong>
         </div>
@@ -544,12 +544,12 @@ function renderWorkshopDetails() {
         </section>
       </div>
 
-      <button class="button summary-button" type="button" data-summary="${lesson.slug}">${ui("summary", "Workshop summary")}</button>
+      <button class="button summary-button" type="button" data-summary="${lesson.slug}">${ui("summary", "Lesson summary")}</button>
 
-      <section class="section-quiz" data-workshop-quiz="${lesson.slug}" aria-label="${lesson.title} quiz" aria-live="polite">
+      <section class="section-quiz" data-lesson-quiz="${lesson.slug}" aria-label="${lesson.title} quiz" aria-live="polite">
         <div class="section-quiz-copy">
-          <h4>${ui("practice", "Practice this workshop")}</h4>
-          <p>${ui("quizCopy", "Use Previous and Next to move through this workshop's practice pool.")}</p>
+          <h4>${ui("practice", "Practice this lesson")}</h4>
+          <p>${ui("quizCopy", "Use Previous and Next to move through this lesson's practice pool.")}</p>
         </div>
         <div class="section-quiz-panel">
           <div class="section-quiz-prompt">
@@ -560,8 +560,8 @@ function renderWorkshopDetails() {
           <div class="section-quiz-footer">
             <p class="section-quiz-feedback">${ui("choose", "Choose an answer to begin.")}</p>
             <div class="step-controls">
-              <button class="button secondary dark-text" type="button" data-prev-workshop="${lesson.slug}">${ui("prev", "Previous")}</button>
-              <button class="button primary" type="button" data-next-workshop="${lesson.slug}">${ui("next", "Next")}</button>
+              <button class="button secondary dark-text" type="button" data-prev-lesson="${lesson.slug}">${ui("prev", "Previous")}</button>
+              <button class="button primary" type="button" data-next-lesson="${lesson.slug}">${ui("next", "Next")}</button>
             </div>
           </div>
         </div>
@@ -591,7 +591,7 @@ function shuffle(items) {
 
 function renderCellStep(slug) {
   const lesson = lessons.find((item) => item.slug === slug);
-  const stepper = workshopDetails.querySelector(`[data-cell-stepper="${slug}"]`);
+  const stepper = lessonDetails.querySelector(`[data-cell-stepper="${slug}"]`);
   const index = cellState.get(slug) || 0;
   if (!lesson || !stepper) return;
 
@@ -621,7 +621,7 @@ function setupCellSteppers() {
   });
 }
 
-function getWorkshopPool(lesson) {
+function getLessonPool(lesson) {
   const items = [
     ...lesson.focus,
     ...lesson.practiceSets.flatMap((set) => set.items)
@@ -645,15 +645,15 @@ function buildOptions(pool, answer, index) {
   return shuffle([answer, ...rotated.slice(0, 3)]);
 }
 
-function renderWorkshopQuestion(slug) {
+function renderLessonQuestion(slug) {
   const lesson = lessons.find((item) => item.slug === slug);
-  const quiz = workshopDetails.querySelector(`[data-workshop-quiz="${slug}"]`);
+  const quiz = lessonDetails.querySelector(`[data-lesson-quiz="${slug}"]`);
   if (!lesson || !quiz) return;
 
   let state = quizState.get(slug);
   if (!state) {
     state = {
-      pool: getWorkshopPool(lesson),
+      pool: getLessonPool(lesson),
       index: 0
     };
     quizState.set(slug, state);
@@ -666,38 +666,38 @@ function renderWorkshopQuestion(slug) {
   quiz.querySelector(".section-quiz-help").textContent = regionalMode() ? `${ui("question", "Question")} ${state.index + 1} / ${state.pool.length}` : `${ui("question", "Question")} ${state.index + 1} of ${state.pool.length}`;
   quiz.querySelector(".section-quiz-feedback").textContent = ui("choose", "Choose an answer to begin.");
   quiz.querySelector(".section-quiz-choices").innerHTML = options.map((item) => `
-    <button type="button" data-workshop-answer="${slug}" data-answer="${item.print}">${item.print}</button>
+    <button type="button" data-lesson-answer="${slug}" data-answer="${item.print}">${item.print}</button>
   `).join("");
-  quiz.querySelector("[data-prev-workshop]").disabled = state.index === 0;
-  quiz.querySelector("[data-next-workshop]").disabled = state.index === state.pool.length - 1;
+  quiz.querySelector("[data-prev-lesson]").disabled = state.index === 0;
+  quiz.querySelector("[data-next-lesson]").disabled = state.index === state.pool.length - 1;
 }
 
-function moveWorkshopQuestion(slug, direction) {
+function moveLessonQuestion(slug, direction) {
   const lesson = lessons.find((item) => item.slug === slug);
   if (!lesson) return;
 
   let state = quizState.get(slug);
   if (!state) {
     state = {
-      pool: getWorkshopPool(lesson),
+      pool: getLessonPool(lesson),
       index: 0
     };
   }
 
   state.index = Math.min(Math.max(state.index + direction, 0), state.pool.length - 1);
   quizState.set(slug, state);
-  renderWorkshopQuestion(slug);
+  renderLessonQuestion(slug);
 }
 
-function answerWorkshopQuestion(button) {
-  const slug = button.dataset.workshopAnswer;
+function answerLessonQuestion(button) {
+  const slug = button.dataset.lessonAnswer;
   const state = quizState.get(slug);
   const quiz = button.closest(".section-quiz");
   if (!state || !quiz) return;
 
   const answer = state.pool[state.index];
   const isCorrect = button.dataset.answer === answer.print;
-  [...quiz.querySelectorAll("[data-workshop-answer]")].forEach((choice) => {
+  [...quiz.querySelectorAll("[data-lesson-answer]")].forEach((choice) => {
     choice.disabled = true;
     if (choice.dataset.answer === answer.print) choice.classList.add("correct");
   });
@@ -707,13 +707,13 @@ function answerWorkshopQuestion(button) {
     : `${ui("notQuite", "Not quite")}. ${answer.print}.`;
 }
 
-function setupWorkshopQuizzes() {
-  lessons.forEach((lesson) => renderWorkshopQuestion(lesson.slug));
+function setupLessonQuizzes() {
+  lessons.forEach((lesson) => renderLessonQuestion(lesson.slug));
 }
 
 function renderSummary(lesson) {
   summaryTitle.textContent = displayLessonTitle(lesson);
-  document.querySelector(".summary-modal-header .eyebrow").textContent = ui("summary", "Workshop summary");
+  document.querySelector(".summary-modal-header .eyebrow").textContent = ui("summary", "Lesson summary");
   summaryBody.innerHTML = `
     <section>
       <h3>${ui("goals", "Learning goals")}</h3>
@@ -802,10 +802,10 @@ function renderAll() {
   cellState.clear();
   setupPageText();
   renderLessons();
-  renderWorkshopDetails();
+  renderLessonDetails();
   renderStaticBraille();
   setupCellSteppers();
-  setupWorkshopQuizzes();
+  setupLessonQuizzes();
   renderChart(document.querySelector("[data-chart-filter].active")?.dataset.chartFilter || "all");
   updateSandbox();
 }
@@ -818,7 +818,7 @@ chartButtons.forEach((button) => {
   });
 });
 
-workshopDetails.addEventListener("click", (event) => {
+lessonDetails.addEventListener("click", (event) => {
   const summaryButton = event.target.closest("[data-summary]");
   if (summaryButton) {
     openSummary(summaryButton.dataset.summary);
@@ -837,20 +837,20 @@ workshopDetails.addEventListener("click", (event) => {
     return;
   }
 
-  const answerButton = event.target.closest("[data-workshop-answer]");
+  const answerButton = event.target.closest("[data-lesson-answer]");
   if (answerButton) {
-    answerWorkshopQuestion(answerButton);
+    answerLessonQuestion(answerButton);
     return;
   }
 
-  const prevButton = event.target.closest("[data-prev-workshop]");
+  const prevButton = event.target.closest("[data-prev-lesson]");
   if (prevButton) {
-    moveWorkshopQuestion(prevButton.dataset.prevWorkshop, -1);
+    moveLessonQuestion(prevButton.dataset.prevLesson, -1);
     return;
   }
 
-  const nextButton = event.target.closest("[data-next-workshop]");
-  if (nextButton) moveWorkshopQuestion(nextButton.dataset.nextWorkshop, 1);
+  const nextButton = event.target.closest("[data-next-lesson]");
+  if (nextButton) moveLessonQuestion(nextButton.dataset.nextLesson, 1);
 });
 closeSummary.addEventListener("click", closeSummaryModal);
 summaryModal.addEventListener("click", (event) => {
