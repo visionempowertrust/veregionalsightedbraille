@@ -825,6 +825,17 @@ nav a:focus-visible {
   color: var(--ink);
 }
 
+.practice-type-label {
+  margin: 0;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #dbeee7;
+  color: var(--green);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
 .practice-prompt,
 .writing-feedback,
 .proof-feedback {
@@ -945,6 +956,24 @@ nav a:focus-visible {
 .proof-cell.incorrect {
   border-color: var(--rose);
   background: #fbecf0;
+}
+
+.proof-dot-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.proof-dot-choices label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 850;
 }
 
 .section-quiz-footer {
