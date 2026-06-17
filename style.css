@@ -802,10 +802,41 @@ nav a:focus-visible {
   gap: 12px;
 }
 
+.practice-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.practice-category {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #cfe0e6;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.practice-category h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.practice-prompt,
+.writing-feedback,
+.proof-feedback {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
 .section-quiz-prompt {
   display: grid;
   place-items: center;
-  min-height: 150px;
+  min-height: 120px;
   border: 1px solid #cfe0e6;
   border-radius: 8px;
   background: #fff;
@@ -858,6 +889,60 @@ nav a:focus-visible {
 }
 
 .section-quiz-choices button.incorrect {
+  border-color: var(--rose);
+  background: #fbecf0;
+}
+
+.writing-cells,
+.proof-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.writing-cell {
+  display: grid;
+  grid-template-columns: repeat(2, 26px);
+  grid-template-rows: repeat(3, 26px);
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+
+.writing-dot {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #aab8b2;
+  border-radius: 50%;
+  background: #d9dfdc;
+  color: #29363d;
+  font-size: 0.72rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.writing-dot.active {
+  background: #111827;
+  color: #fff;
+}
+
+.proof-cell {
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.proof-cell.correct {
+  border-color: var(--green);
+  background: #e8f3ee;
+}
+
+.proof-cell.incorrect {
   border-color: var(--rose);
   background: #fbecf0;
 }
@@ -1057,6 +1142,10 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .practice-category-grid {
+    grid-template-columns: 1fr;
+  }
+
   .hero {
     min-height: auto;
   }
@@ -1102,6 +1191,7 @@ textarea:focus {
   .chart-grid,
   .language-grid,
   .practice-set-grid,
+  .practice-category-grid,
   .lesson-two-column,
   .section-quiz,
   .section-quiz-choices,

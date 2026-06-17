@@ -493,7 +493,7 @@ function renderLessonDetails() {
       <div class="lesson-detail-header"><div><p class="eyebrow">${ui("lessons", "Lesson")} ${index + 1}</p><h3>${displayLessonTitle(lesson)}</h3><p>${displayLessonIntroduction(lesson)}</p></div><div class="lesson-badge" aria-hidden="true"><span>${renderBrailleCells(lesson.icon)}</span><strong>${displayTime(lesson)}</strong></div></div>
       <div class="lesson-two-column"><section><h4>${ui("goals", "Learning goals")}</h4><ul class="objective-list">${displayObjectives(lesson).map((objective) => `<li>${objective}</li>`).join("")}</ul></section><section class="cell-stepper" data-cell-stepper="${lesson.slug}" aria-live="polite"><div class="cell-stepper-heading"><h4>${ui("oneAtATime", "Learn one cell at a time")}</h4><span class="cell-step-count"></span></div><div class="cell-step-card"><span class="cell-step-print"></span><span class="cell-step-braille"></span><span class="cell-step-note"></span></div><div class="step-controls"><button class="button secondary dark-text" type="button" data-prev-cell="${lesson.slug}">${ui("prev", "Previous")}</button><button class="button primary" type="button" data-next-cell="${lesson.slug}">${ui("next", "Next")}</button></div></section></div>
       <button class="button summary-button" type="button" data-summary="${lesson.slug}">${ui("summary", "Lesson summary")}</button>
-      <section class="section-quiz" data-lesson-quiz="${lesson.slug}" aria-live="polite"><div class="section-quiz-copy"><h4>${ui("practice", "Practice this lesson")}</h4><p>${ui("quizCopy", "Use Previous and Next to move through this lesson's practice pool.")}</p></div><div class="section-quiz-panel"><div class="section-quiz-prompt"><span class="section-quiz-braille"></span><span class="section-quiz-help"></span></div><div class="section-quiz-choices"></div><div class="section-quiz-footer"><p class="section-quiz-feedback">${ui("choose", "Choose an answer to begin.")}</p><div class="step-controls"><button class="button secondary dark-text" type="button" data-prev-lesson="${lesson.slug}">${ui("prev", "Previous")}</button><button class="button primary" type="button" data-next-lesson="${lesson.slug}">${ui("next", "Next")}</button></div></div></div></section>
+      <section class="section-quiz" data-lesson-quiz="${lesson.slug}" aria-live="polite"><div class="section-quiz-copy"><h4>${ui("practice", "Practice this lesson")}</h4><p>${ui("quizCopy", "Use Previous and Next to move through reading, writing, and proof reading practice.")}</p></div><div class="section-quiz-panel"><div class="practice-category-grid"><section class="practice-category"><h5>Reading</h5><div class="section-quiz-prompt"><span class="section-quiz-braille"></span><span class="section-quiz-help"></span></div><div class="section-quiz-choices"></div><p class="section-quiz-feedback">${ui("choose", "Choose an answer to begin.")}</p></section><section class="practice-category"><h5>Writing</h5><p class="practice-prompt writing-prompt"></p><div class="writing-cells"></div><button class="button secondary dark-text" type="button" data-check-writing="${lesson.slug}">Check writing</button><p class="writing-feedback"></p></section><section class="practice-category"><h5>Proof reading</h5><p class="practice-prompt proof-prompt"></p><div class="proof-cells"></div><p class="proof-feedback"></p></section></div><div class="section-quiz-footer"><p class="section-quiz-position"></p><div class="step-controls"><button class="button secondary dark-text" type="button" data-prev-lesson="${lesson.slug}">${ui("prev", "Previous")}</button><button class="button primary" type="button" data-next-lesson="${lesson.slug}">${ui("next", "Next")}</button></div></div></div></section>
     </article>
   `).join("");
 }
@@ -544,6 +544,40 @@ function buildOptions(pool, answer, index) {
   return [answer, ...rotated.slice(0, 3)].sort(() => Math.random() - 0.5);
 }
 
+function getBrailleCells(value) {
+  return [...String(value)].filter(isBrailleChar);
+}
+
+function emptyWriting(cells) {
+  return cells.map(() => []);
+}
+
+function renderWritingCells(slug, cells, selections) {
+  return cells.map((cell, cellIndex) => `<div class="writing-cell" aria-label="Braille cell ${cellIndex + 1}">${[1, 2, 3, 4, 5, 6].map((dot) => {
+    const active = selections[cellIndex]?.includes(dot);
+    return `<button type="button" class="writing-dot${active ? " active" : ""}" data-writing-dot="${slug}" data-cell-index="${cellIndex}" data-dot="${dot}" aria-pressed="${active ? "true" : "false"}">${dot}</button>`;
+  }).join("")}</div>`).join("");
+}
+
+function makeProofItem(answer, index) {
+  const chars = [...answer.braille];
+  const brailleIndexes = chars.map((char, sourceIndex) => isBrailleChar(char) ? sourceIndex : -1).filter((sourceIndex) => sourceIndex >= 0);
+  if (!brailleIndexes.length) return { html: renderBrailleCells(answer.braille), errorCell: -1 };
+  const errorCell = index % brailleIndexes.length;
+  const sourceIndex = brailleIndexes[errorCell];
+  const mask = chars[sourceIndex].codePointAt(0) - 0x2800;
+  const dot = (index % 6) + 1;
+  chars[sourceIndex] = String.fromCodePoint(0x2800 + (mask ^ (1 << (dot - 1))));
+  let cellIndex = 0;
+  const html = chars.map((char) => {
+    if (!isBrailleChar(char)) return char === " " ? `<span class="visual-braille-space" aria-hidden="true"></span>` : escapeHtml(char);
+    const current = cellIndex;
+    cellIndex += 1;
+    return `<button type="button" class="proof-cell" data-proof-cell="${answer.slug}" data-proof-index="${current}" aria-label="Braille cell ${current + 1}">${renderBrailleCell(char)}</button>`;
+  }).join("");
+  return { html, errorCell };
+}
+
 function renderLessonQuestion(slug) {
   const lesson = lessons.find((item) => item.slug === slug);
   const quiz = lessonDetails.querySelector(`[data-lesson-quiz="${slug}"]`);
@@ -553,10 +587,25 @@ function renderLessonQuestion(slug) {
     quizState.set(slug, state);
   }
   const answer = state.pool[state.index];
+  answer.slug = slug;
+  const cells = getBrailleCells(answer.braille);
+  if (!state.writing || state.writingKey !== state.index) {
+    state.writing = emptyWriting(cells);
+    state.writingKey = state.index;
+  }
+  const proof = makeProofItem(answer, state.index);
   quiz.querySelector(".section-quiz-braille").innerHTML = renderBrailleCells(answer.braille);
   quiz.querySelector(".section-quiz-help").textContent = regionalMode() ? `${ui("question", "Question")} ${state.index + 1} / ${state.pool.length}` : `${ui("question", "Question")} ${state.index + 1} of ${state.pool.length}`;
   quiz.querySelector(".section-quiz-feedback").textContent = ui("choose", "Choose an answer to begin.");
   quiz.querySelector(".section-quiz-choices").innerHTML = buildOptions(state.pool, answer, state.index).map((item) => `<button type="button" data-lesson-answer="${slug}" data-answer="${item.print}">${item.print}</button>`).join("");
+  quiz.querySelector(".writing-prompt").textContent = `Write: ${answer.print}`;
+  quiz.querySelector(".writing-cells").innerHTML = renderWritingCells(slug, cells, state.writing);
+  quiz.querySelector(".writing-feedback").textContent = "Select dots, then check writing.";
+  quiz.querySelector(".proof-prompt").textContent = `Find the wrong braille cell for: ${answer.print}`;
+  quiz.querySelector(".proof-cells").innerHTML = proof.html;
+  quiz.querySelector(".proof-feedback").textContent = "Choose the cell that contains the error.";
+  state.proofError = proof.errorCell;
+  quiz.querySelector(".section-quiz-position").textContent = `${state.index + 1} of ${state.pool.length}`;
   quiz.querySelector("[data-prev-lesson]").disabled = state.index === 0;
   quiz.querySelector("[data-next-lesson]").disabled = state.index === state.pool.length - 1;
 }
@@ -564,6 +613,7 @@ function renderLessonQuestion(slug) {
 function moveLessonQuestion(slug, direction) {
   const state = quizState.get(slug);
   state.index = Math.min(Math.max(state.index + direction, 0), state.pool.length - 1);
+  state.writing = null;
   renderLessonQuestion(slug);
 }
 
@@ -579,6 +629,41 @@ function answerLessonQuestion(button) {
   });
   if (!correct) button.classList.add("incorrect");
   quiz.querySelector(".section-quiz-feedback").textContent = correct ? `${ui("correct", "Correct")}: ${answer.print}.` : `${ui("notQuite", "Not quite")}. ${answer.print}.`;
+}
+
+function toggleWritingDot(button) {
+  const slug = button.dataset.writingDot;
+  const state = quizState.get(slug);
+  if (!state) return;
+  const cellIndex = Number(button.dataset.cellIndex);
+  const dot = Number(button.dataset.dot);
+  const selected = new Set(state.writing[cellIndex] || []);
+  if (selected.has(dot)) selected.delete(dot);
+  else selected.add(dot);
+  state.writing[cellIndex] = [...selected].sort((a, b) => a - b);
+  quizState.set(slug, state);
+  renderLessonQuestion(slug);
+}
+
+function checkWriting(button) {
+  const slug = button.dataset.checkWriting;
+  const state = quizState.get(slug);
+  const quiz = button.closest(".section-quiz");
+  if (!state || !quiz) return;
+  const answer = state.pool[state.index];
+  const correct = getBrailleCells(answer.braille).every((cell, index) => brailleDotNumbers(cell).join("") === (state.writing[index] || []).join(""));
+  quiz.querySelector(".writing-feedback").textContent = correct ? "Correct writing." : "Check the selected dots and try again.";
+}
+
+function answerProofCell(button) {
+  const slug = button.dataset.proofCell;
+  const state = quizState.get(slug);
+  const quiz = button.closest(".section-quiz");
+  if (!state || !quiz) return;
+  const selected = Number(button.dataset.proofIndex);
+  [...quiz.querySelectorAll("[data-proof-cell]")].forEach((cell) => cell.classList.remove("correct", "incorrect"));
+  button.classList.add(selected === state.proofError ? "correct" : "incorrect");
+  quiz.querySelector(".proof-feedback").textContent = selected === state.proofError ? "Correct. That cell has the error." : "Not quite. Try another cell.";
 }
 
 function setupLessonQuizzes() {
@@ -669,6 +754,12 @@ if (courseKey) {
     if (nextCellButton) return moveCellStep(nextCellButton.dataset.nextCell, 1);
     const answerButton = event.target.closest("[data-lesson-answer]");
     if (answerButton) return answerLessonQuestion(answerButton);
+    const writingDot = event.target.closest("[data-writing-dot]");
+    if (writingDot) return toggleWritingDot(writingDot);
+    const checkWritingButton = event.target.closest("[data-check-writing]");
+    if (checkWritingButton) return checkWriting(checkWritingButton);
+    const proofCell = event.target.closest("[data-proof-cell]");
+    if (proofCell) return answerProofCell(proofCell);
     const prevButton = event.target.closest("[data-prev-lesson]");
     if (prevButton) return moveLessonQuestion(prevButton.dataset.prevLesson, -1);
     const nextButton = event.target.closest("[data-next-lesson]");
