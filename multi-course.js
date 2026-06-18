@@ -487,10 +487,6 @@ function renderLessons() {
   `).join("");
 }
 
-function useSinglePracticePilot(lesson) {
-  return true;
-}
-
 function renderPracticePanel(lesson) {
   return `<section class="section-quiz single-practice" data-lesson-quiz="${lesson.slug}" aria-live="polite"><div class="section-quiz-copy"><h4>${ui("practice", "Practice this lesson")}</h4><p>Questions appear one at a time as reading, writing, or proof reading.</p></div><div class="section-quiz-panel"><p class="practice-type-label"></p><div class="single-practice-body"></div><div class="section-quiz-footer"><p class="section-quiz-position"></p><div class="step-controls"><button class="button secondary dark-text" type="button" data-prev-lesson="${lesson.slug}">${ui("prev", "Previous")}</button><button class="button primary" type="button" data-next-lesson="${lesson.slug}">${ui("next", "Next")}</button></div></div></div></section>`;
 }
@@ -631,25 +627,7 @@ function renderLessonQuestion(slug) {
     state.writingKey = state.index;
   }
   const options = buildOptions(state.pool, answer, state.index);
-  if (useSinglePracticePilot(lesson)) {
-    renderSinglePracticeQuestion(lesson, quiz, state, answer, options);
-    quiz.querySelector("[data-prev-lesson]").disabled = state.index === 0;
-    quiz.querySelector("[data-next-lesson]").disabled = state.index === state.pool.length - 1;
-    return;
-  }
-  const proof = makeProofItem(answer, state.index);
-  quiz.querySelector(".section-quiz-braille").innerHTML = renderBrailleCells(answer.braille);
-  quiz.querySelector(".section-quiz-help").textContent = regionalMode() ? `${ui("question", "Question")} ${state.index + 1} / ${state.pool.length}` : `${ui("question", "Question")} ${state.index + 1} of ${state.pool.length}`;
-  quiz.querySelector(".section-quiz-feedback").textContent = ui("choose", "Choose an answer to begin.");
-  quiz.querySelector(".section-quiz-choices").innerHTML = options.map((item) => `<button type="button" data-lesson-answer="${slug}" data-answer="${item.print}">${item.print}</button>`).join("");
-  quiz.querySelector(".writing-prompt").textContent = `Write: ${answer.print}`;
-  quiz.querySelector(".writing-cells").innerHTML = renderWritingCells(slug, cells, state.writing);
-  quiz.querySelector(".writing-feedback").textContent = "Select dots, then check writing.";
-  quiz.querySelector(".proof-prompt").textContent = `Find the wrong braille cell for: ${answer.print}`;
-  quiz.querySelector(".proof-cells").innerHTML = proof.html;
-  quiz.querySelector(".proof-feedback").textContent = "Choose the cell that contains the error.";
-  state.proofError = proof.errorCell;
-  quiz.querySelector(".section-quiz-position").textContent = `${state.index + 1} of ${state.pool.length}`;
+  renderSinglePracticeQuestion(lesson, quiz, state, answer, options);
   quiz.querySelector("[data-prev-lesson]").disabled = state.index === 0;
   quiz.querySelector("[data-next-lesson]").disabled = state.index === state.pool.length - 1;
 }
@@ -704,7 +682,7 @@ function answerProofCell(button) {
   const state = quizState.get(slug);
   const quiz = button.closest(".section-quiz");
   if (!state || !quiz) return;
-  if (quiz.classList.contains("single-practice") && quiz.querySelectorAll("[data-proof-cell]").length === 1) return;
+  if (quiz.querySelectorAll("[data-proof-cell]").length === 1) return;
   const selected = Number(button.dataset.proofIndex);
   [...quiz.querySelectorAll("[data-proof-cell]")].forEach((cell) => cell.classList.remove("correct", "incorrect"));
   button.classList.add(selected === state.proofError ? "correct" : "incorrect");
